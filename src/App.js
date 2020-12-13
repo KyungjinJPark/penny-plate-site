@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  NavLink
+} from 'react-router-dom';
 
-function App() {
+import './App.css';
+import Content from './Content';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <NavBar />
+      <Content />
+      <Footer />
+    </Router>
   );
 }
+
+const NavBar = () => <nav>
+  <ul>
+    <li><NavLink to='/'>Home</NavLink></li>
+    <li><NavLink to='/products'>Products</NavLink></li>
+    <li><NavLink to='/about'>About</NavLink></li>
+    <li><NavLink to='/catalog'>Catalog</NavLink></li>
+    <li><NavLink to='/recent-news'>Recent News</NavLink></li>
+    <li><NavLink to='/new-items'>New Items</NavLink></li>
+  </ul>
+</nav>;
+
+const Footer = () => <footer>
+  <p>© 2018 Gandalf</p>
+</footer>;
 
 export default App;
