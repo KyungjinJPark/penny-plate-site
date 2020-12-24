@@ -5,10 +5,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// for GraphCMS integration
+import { ApolloProvider } from "react-apollo";
+import ApolloClient from "apollo-boost";
+
+const client = new ApolloClient({
+  uri: "https://api-us-east-1.graphcms.com/v2/ckj2jtivtekmg01z50f7zb829/master"
+});
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </React.StrictMode>
+  ,
   document.getElementById('root')
 );
 
