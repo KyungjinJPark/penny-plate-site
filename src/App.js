@@ -1,7 +1,9 @@
 import {
   BrowserRouter as Router,
-  NavLink
+  // NavLink
 } from 'react-router-dom';
+
+import { Navbar, Nav } from 'react-bootstrap';
 
 import './App.css';
 import Content from './Content';
@@ -16,19 +18,21 @@ const App = () => {
   );
 }
 
-const NavBar = () => <nav>
-  <ul>
-    <li><NavLink to='/'>Home</NavLink></li>
-    <li><NavLink to='/products'>Products</NavLink></li>
-    <li><NavLink to='/about'>About</NavLink></li>
-    <li><NavLink to='/catalog'>Catalog</NavLink></li>
-    <li><NavLink to='/recent-news'>Recent News</NavLink></li>
-    <li><NavLink to='/new-items'>New Items</NavLink></li>
-  </ul>
-</nav>;
+const NavBar = () => <Navbar bg="dark" variant="dark">
+  <Navbar.Brand href="#home">PennyPlate</Navbar.Brand>
+  <Nav className="mr-auto">
+    <Nav.Link href='/'>Home</Nav.Link>
+    <Nav.Link href='/products'>Products</Nav.Link>
+    <Nav.Link href='/about'>About</Nav.Link>
+    <Nav.Link href='/catalog'>Catalog</Nav.Link>
+    <Nav.Link href='/recent-news'>Recent News</Nav.Link>
+    <Nav.Link href='/new-items'>New Items</Nav.Link>
+  </Nav>
+  {/* <Button variant="outline-info">PDF (x)</Button> */}
+</Navbar>;
 
-const Footer = () => <footer>
-  <p>© 2018 Gandalf</p>
+const Footer = () => <footer className="footer">
+  <p>© 2020 developer</p>
 </footer>;
 
 export default App;

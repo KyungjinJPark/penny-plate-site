@@ -1,3 +1,8 @@
+.products-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
 .modal {
   position: fixed;
   top: 0;
@@ -21,4 +26,11 @@
 }
 .display-none {
   display: none;
+}
+
+.footer {
+  margin-top: 2em;
+  padding: 2em 2em;
+  color: rgb(243, 243, 243);
+  background-color: rgb(131, 131, 131);
 }
