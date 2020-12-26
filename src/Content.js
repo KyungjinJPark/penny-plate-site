@@ -6,12 +6,24 @@ import {
 import Products from './components/Products'
 
 const Content = () => <main><Switch>
-  <Route exact path='/'>Home</Route>
-  <Route path='/products'><header>Products</header><Products /></Route>
-  <Route path='/about'>About</Route>
-  <Route path='/catalog'>Catalog</Route>
-  <Route path='/recent-news'>Recent News</Route>
-  <Route path='/new-items'>New Items</Route>
+  <Route exact path='/'>
+    This is the HOME page
+  </Route>
+  <Route path='/products'>
+    <Products />
+  </Route>
+  <Route path='/about'>
+    This is the ABOUT page
+  </Route>
+  <Route path='/catalog'>
+    This is the CATALOG page
+  </Route>
+  <Route path='/recent-news'>
+    This is the RECENT NEWS page
+  </Route>
+  <Route path='/new-items'>
+    This is the NEW ITEMS page
+  </Route>
 </Switch></main>;
 
 export default Content;
