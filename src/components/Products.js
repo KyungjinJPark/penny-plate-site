@@ -5,7 +5,9 @@ import { Button, Card } from 'react-bootstrap';
 
 import { PRODUCTS_QUERY, FILTER_QUERY } from './all-products/queries';
 
-const Products = (props) => {
+import { jsPDF } from "jspdf";
+
+const Products = () => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -24,8 +26,8 @@ const Products = (props) => {
       <h3>Filters</h3>
       <Query query={FILTER_QUERY}>
         {({ loading, error, data }) => {
-          if (loading) return <div>Fetching products.....</div>
-          if (error) return <div>Error fetching products</div>
+          if (loading) return <div>Fetching filters.....</div>
+          if (error) return <div>Error fetching filters</div>
 
           console.log(data);
           const filters = data.__type.enumValues;
@@ -93,9 +95,24 @@ const Cart = ({ show, cartitems, handleClose }) => {
             </div>
           </div>
         )}
-         Total items: {cartitems.length}
+        <p>Total items: {cartitems.length}</p>
+        <button className="btn btn-success ml-2" onClick={() => pdfFromCart(cartitems)}>pdf</button>
         <button className="btn btn-warning ml-2" onClick={handleClose}>close</button>
       </section>
     </div>
   );
+}
+
+const pdfFromCart = (cartitems) => {
+  const doc = new jsPDF("portrait", "in", "letter");
+
+  console.log("for begin");
+  for (let i = 0; i < cartitems.length; i++) {
+    console.log("for iteration");
+    console.log(cartitems[i].itemNo);
+    doc.text(cartitems[i].itemNo, 0.5, i * 1 + 0.5);
+  }
+  console.log("for end");
+
+  doc.save("a4.pdf");
 }
