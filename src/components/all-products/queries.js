@@ -21,4 +21,17 @@ query {
 }
 `;
 
-export { PRODUCTS_QUERY, FILTER_QUERY };
+const NEWS_QUERY = gql`
+query {
+  allRecentNews {
+    id
+    title
+    postDate
+    articleBody {
+      text
+    }
+  }
+}
+`;
+
+export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY };
