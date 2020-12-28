@@ -7,6 +7,8 @@ import { PRODUCTS_QUERY, FILTER_QUERY } from './all-products/queries';
 
 import { jsPDF } from "jspdf";
 
+import logoImg from "../imgs/pennyplate-logo.png"
+
 const Products = () => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
@@ -106,13 +108,35 @@ const Cart = ({ show, cartitems, handleClose }) => {
 const pdfFromCart = (cartitems) => {
   const doc = new jsPDF("portrait", "in", "letter");
 
-  console.log("for begin");
-  for (let i = 0; i < cartitems.length; i++) {
-    console.log("for iteration");
-    console.log(cartitems[i].itemNo);
-    doc.text(cartitems[i].itemNo, 0.5, i * 1 + 0.5);
-  }
-  console.log("for end");
 
-  doc.save("a4.pdf");
+  const path = require('path');
+
+  var img = new Image();
+  img.src = logoImg;
+  doc.addImage(img, "PNG", 0.65, 0.5, 1, 1.5);
+
+  doc.setFontSize(12);
+  doc.setTextColor("#000000");
+  doc.text("www.pennyplate.com", 6, 1);
+
+  doc.line(0.5, 2, 8, 2, "F");
+
+  for (let i = 0; i < cartitems.length; i++) {
+    doc.text(cartitems[i].itemNo, 0.65, i * 1 + 4);
+  }
+
+  doc.line(0.5, 9.5, 8, 9.5, "F");
+
+  doc.setFontSize(16);
+  doc.setTextColor("#000000");
+  doc.text("Contact Us", 0.5, 9.75);
+
+  doc.rect(0.5, 10.25, 7.5, 0.3, "F");
+
+  doc.setFontSize(10);
+  doc.setTextColor("#FFFFFF");
+  doc.text("Page 0 of 0", 0.6, 10.45);
+
+
+  doc.save("PennyPlate_Products_PDF.pdf");
 }
