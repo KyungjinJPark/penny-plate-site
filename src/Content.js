@@ -3,8 +3,7 @@ import {
   Route
 } from 'react-router-dom';
 
-import Products from './components/Products'
-import RecentNews from './components/RecentNews'
+import Products from './components/Products';
 
 const Content = () => <main><Switch>
   <Route exact path='/'>
@@ -18,9 +17,6 @@ const Content = () => <main><Switch>
   </Route>
   <Route path='/catalog'>
     This is the CATALOG page
-  </Route>
-  <Route path='/recent-news'>
-    <RecentNews />
   </Route>
   <Route path='/new-items'>
     This is the NEW ITEMS page

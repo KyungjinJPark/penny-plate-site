@@ -25,7 +25,6 @@ const NavBar = () => <Navbar bg="dark" variant="dark">
     <Nav.Link href='/products'>Products</Nav.Link>
     <Nav.Link href='/about'>About</Nav.Link>
     <Nav.Link href='/catalog'>Catalog</Nav.Link>
-    <Nav.Link href='/recent-news'>Recent News</Nav.Link>
     <Nav.Link href='/new-items'>New Items</Nav.Link>
   </Nav>
   {/* <Button variant="outline-info">PDF (x)</Button> */}
