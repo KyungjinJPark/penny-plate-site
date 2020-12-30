@@ -1,28 +1,22 @@
-import { Query } from 'react-apollo';
+import { useQuery } from 'react-apollo';
 import { Card } from 'react-bootstrap';
 
 import { NEWS_QUERY } from './all-products/queries';
 
 const RecentNews = () => {
+
+  const { loading, error, data } = useQuery(NEWS_QUERY);
+  console.log(data);
+  if (loading) return <div>Fetching recent news...</div>;
+  if (error) return <div>Error fetching recent news</div>;
+  const articles = data.allRecentNews;
   return (
     <div>
-      <Query query={NEWS_QUERY}>
-        {({ loading, error, data }) => {
-          if (loading) return <div>Fetching products.....</div>
-          if (error) return <div>Error fetching products</div>
-
-          console.log(data);
-          const articles = data.allRecentNews;
-          return (
-            <main>
-              {articles.map(article => <ArticleListItem key={article.id} article={article} />)}
-            </main>
-          )
-        }}
-      </Query>
+          <main>
+            {articles.map(article => <ArticleListItem key={article.id} article={article} />)}
+          </main>
     </div>
   );
-
 };
 
 export default RecentNews;
