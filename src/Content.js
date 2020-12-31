@@ -3,24 +3,26 @@ import {
   Route
 } from 'react-router-dom';
 
+import HomePage from './components/HomePage'
 import Products from './components/Products';
 
-const Content = () => <main><Switch>
-  <Route exact path='/'>
-    This is the HOME page
+const Content = () =>
+  <Switch>
+    <Route exact path='/'>
+      <HomePage />
+    </Route>
+    <Route path='/products'>
+      <Products />
+    </Route>
+    <Route path='/about'>
+      This is the ABOUT page
+    </Route>
+    <Route path='/catalog'>
+      This is the CATALOG page
+    </Route>
+    <Route path='/new-items'>
+      This is the NEW ITEMS page
   </Route>
-  <Route path='/products'>
-    <Products />
-  </Route>
-  <Route path='/about'>
-    This is the ABOUT page
-  </Route>
-  <Route path='/catalog'>
-    This is the CATALOG page
-  </Route>
-  <Route path='/new-items'>
-    This is the NEW ITEMS page
-  </Route>
-</Switch></main>;
+  </Switch>;
 
 export default Content;

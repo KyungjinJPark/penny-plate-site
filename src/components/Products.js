@@ -1,16 +1,15 @@
+
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-apollo';
 import { Button, Card } from 'react-bootstrap';
-
-import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY } from './all-products/queries';
-
 import { jsPDF } from "jspdf";
 
+import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY } from './all-products/queries';
 import logoImg from "../imgs/pennyplate-logo.png"
 
-const Filters = ({onSend, filterType, query}) => {
+const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
-  const {loading: filterLoading, error: filterError, data: filterData} = useQuery(query);
+  const { loading: filterLoading, error: filterError, data: filterData } = useQuery(query);
   const changeFilters = (checked, name) => {
     const newFilters = [...currFilters];
     if (checked) {
@@ -22,19 +21,20 @@ const Filters = ({onSend, filterType, query}) => {
       const loc = newFilters.indexOf(name);
       if (loc !== -1) {
         newFilters.splice(loc, 1);
-      }      
+      }
     }
     setCurrFilters(newFilters);
   }
   useEffect((allFilters) => {
-    if (!(filterLoading || filterError )) {
+    if (!(filterLoading || filterError)) {
       if (currFilters.length === 0) {
         onSend(allFilters);
       }
       else {
         onSend(currFilters);
       }
-    }},
+    }
+  },
     [filterLoading, filterError, currFilters]);
   if (filterLoading) return <div>Fetching {filterType} filters.....</div>
   if (filterError) return <div>Error fetching {filterType} filters</div>
@@ -43,18 +43,18 @@ const Filters = ({onSend, filterType, query}) => {
   return (
     <>
       <p>{filterType}</p>
-        <ul>
-          {filters.map(filter => <li key={filter.name}><input type="checkbox" onChange={(event) => {changeFilters(event.target.checked, filter.name)}}/>{filter.name}</li>)}
-        </ul>
+      <ul>
+        {filters.map(filter => <li key={filter.name}><input type="checkbox" onChange={(event) => { changeFilters(event.target.checked, filter.name) }} />{filter.name}</li>)}
+      </ul>
     </>
-  )  
+  )
 }
 
 const FilterList = () => {
 
 }
 
-const ProductsList = ({currentFilter, currentPType}) => {
+const ProductsList = ({ currentFilter, currentPType }) => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -66,8 +66,8 @@ const ProductsList = ({currentFilter, currentPType}) => {
   const hideModal = () => {
     setShowCart(false);
   };
-  const {loading: productLoading, error: productError, data: productData} = useQuery(PRODUCTS_QUERY, {
-    variables: { application: currentFilter,  productType: currentPType },
+  const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
+    variables: { application: currentFilter, productType: currentPType },
   });
   if (productLoading) {
     console.log("reload");
@@ -76,11 +76,11 @@ const ProductsList = ({currentFilter, currentPType}) => {
   if (productError) return <div>Error fetching products</div>
   const items = productData.allProducts;
   return (
-    <main>
+    <div>
       <button onClick={showModal}>PDF Items ({cartitems.length})</button>
       <Cart show={showCart} cartitems={cartitems} handleClose={hideModal} />
       {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} />)}
-    </main>
+    </div>
   )
 }
 
@@ -96,11 +96,11 @@ const Products = () => {
   return (<div className='products-wrapper'>
     <div className='products-sidebar'>
       <h3>Filters</h3>
-        <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY}/>
-        <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY}/>
+      <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
+      <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
     </div>
     <div className='products-content'>
-      <ProductsList currentFilter={currentFilter} currentPType={currentPType}/>
+      <ProductsList currentFilter={currentFilter} currentPType={currentPType} />
     </div>
   </div>
   );
