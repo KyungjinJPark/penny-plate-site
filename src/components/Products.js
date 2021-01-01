@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-apollo';
 import { Button, Card } from 'react-bootstrap';
 
-import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY } from './all-products/queries';
+import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from './all-products/queries';
 
 import { jsPDF } from "jspdf";
 
@@ -33,7 +33,7 @@ const Filters = ({onSend, filterType, query}) => {
         onSend(currFilters);
       }
     }},
-    [filterLoading, filterError, currFilters]);
+    [filterLoading, filterError, currFilters, onSend]);
   if (filterLoading) return <div>Fetching {filterType} filters.....</div>
   if (filterError) return <div>Error fetching {filterType} filters</div>
   const filters = filterData.__type.enumValues;
@@ -48,11 +48,7 @@ const Filters = ({onSend, filterType, query}) => {
   )  
 }
 
-const FilterList = () => {
-
-}
-
-const ProductsList = ({currentFilter, currentPType}) => {
+const ProductsList = ({currentFilter, currentPType, currentShape, currentStock}) => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -65,7 +61,7 @@ const ProductsList = ({currentFilter, currentPType}) => {
     setShowCart(false);
   };
   const {loading: productLoading, error: productError, data: productData} = useQuery(PRODUCTS_QUERY, {
-    variables: { application: currentFilter,  productType: currentPType },
+    variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
   });
   if (productLoading) {
     console.log("reload");
@@ -85,20 +81,30 @@ const ProductsList = ({currentFilter, currentPType}) => {
 const Products = () => {
   const [currentFilter, setFilter] = useState([]);
   const [currentPType, setPType] = useState([]);
+  const [currentShape, setShape] = useState([]);
+  const [currentStock, setStock] = useState([]);
   const changeFilters = (newFilters) => {
     setFilter(newFilters);
   }
   const changePType = (newTypes) => {
     setPType(newTypes);
   }
+  const changeShape = (newShapes) => {
+    setShape(newShapes);
+  }
+  const changeStock = (newStocks) => {
+    setStock(newStocks);
+  }
   return (<div className='products-wrapper'>
     <div className='products-sidebar'>
       <h3>Filters</h3>
         <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY}/>
         <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY}/>
+        <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY}/>
+        <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY}/>
     </div>
     <div className='products-content'>
-      <ProductsList currentFilter={currentFilter} currentPType={currentPType}/>
+      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock}/>
     </div>
   </div>
   );
