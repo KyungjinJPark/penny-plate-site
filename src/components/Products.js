@@ -1,14 +1,15 @@
+
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-apollo';
 import { Button, Card } from 'react-bootstrap';
-
-import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from './all-products/queries';
-
 import { jsPDF } from "jspdf";
 
-const Filters = ({onSend, filterType, query}) => {
+import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from './all-products/queries';
+import logoImg from "../imgs/pennyplate-logo.png"
+
+const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
-  const {loading: filterLoading, error: filterError, data: filterData} = useQuery(query);
+  const { loading: filterLoading, error: filterError, data: filterData } = useQuery(query);
   const changeFilters = (checked, name) => {
     const newFilters = [...currFilters];
     if (checked) {
@@ -20,12 +21,12 @@ const Filters = ({onSend, filterType, query}) => {
       const loc = newFilters.indexOf(name);
       if (loc !== -1) {
         newFilters.splice(loc, 1);
-      }      
+      }
     }
     setCurrFilters(newFilters);
   }
   useEffect((allFilters) => {
-    if (!(filterLoading || filterError )) {
+    if (!(filterLoading || filterError)) {
       if (currFilters.length === 0) {
         onSend(allFilters);
       }
@@ -41,11 +42,11 @@ const Filters = ({onSend, filterType, query}) => {
   return (
     <>
       <p>{filterType}</p>
-        <ul>
-          {filters.map(filter => <li key={filter.name}><input type="checkbox" onChange={(event) => {changeFilters(event.target.checked, filter.name)}}/>{filter.name}</li>)}
-        </ul>
+      <ul>
+        {filters.map(filter => <li key={filter.name}><input type="checkbox" onChange={(event) => { changeFilters(event.target.checked, filter.name) }} />{filter.name}</li>)}
+      </ul>
     </>
-  )  
+  )
 }
 
 const ProductsList = ({currentFilter, currentPType, currentShape, currentStock}) => {
@@ -70,11 +71,11 @@ const ProductsList = ({currentFilter, currentPType, currentShape, currentStock})
   if (productError) return <div>Error fetching products</div>
   const items = productData.allProducts;
   return (
-    <main>
+    <div>
       <button onClick={showModal}>PDF Items ({cartitems.length})</button>
       <Cart show={showCart} cartitems={cartitems} handleClose={hideModal} />
       {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} />)}
-    </main>
+    </div>
   )
 }
 
@@ -149,13 +150,35 @@ const Cart = ({ show, cartitems, handleClose }) => {
 const pdfFromCart = (cartitems) => {
   const doc = new jsPDF("portrait", "in", "letter");
 
-  console.log("for begin");
-  for (let i = 0; i < cartitems.length; i++) {
-    console.log("for iteration");
-    console.log(cartitems[i].itemNo);
-    doc.text(cartitems[i].itemNo, 0.5, i * 1 + 0.5);
-  }
-  console.log("for end");
 
-  doc.save("a4.pdf");
+  const path = require('path');
+
+  var img = new Image();
+  img.src = logoImg;
+  doc.addImage(img, "PNG", 0.65, 0.5, 1, 1.5);
+
+  doc.setFontSize(12);
+  doc.setTextColor("#000000");
+  doc.text("www.pennyplate.com", 6, 1);
+
+  doc.line(0.5, 2, 8, 2, "F");
+
+  for (let i = 0; i < cartitems.length; i++) {
+    doc.text(cartitems[i].itemNo, 0.65, i * 1 + 4);
+  }
+
+  doc.line(0.5, 9.5, 8, 9.5, "F");
+
+  doc.setFontSize(16);
+  doc.setTextColor("#000000");
+  doc.text("Contact Us", 0.5, 9.75);
+
+  doc.rect(0.5, 10.25, 7.5, 0.3, "F");
+
+  doc.setFontSize(10);
+  doc.setTextColor("#FFFFFF");
+  doc.text("Page 0 of 0", 0.6, 10.45);
+
+
+  doc.save("PennyPlate_Products_PDF.pdf");
 }
