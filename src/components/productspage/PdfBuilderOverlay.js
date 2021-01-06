@@ -1,24 +1,31 @@
 import { jsPDF } from "jspdf";
+import { Button, CardDeck, Card } from "react-bootstrap";
 
 import logoImg from "../../imgs/pennyplate-logo.png"
 
 // TODO: convert to React Boostrap components
 const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
   return (
-    <div className={show ? "modal display-block" : "modal display-none"}>
-      <section className="main-modal">
-        {builderItems.map(item =>
-          <div key={item.id} className="card" style={{ width: "18rem" }}>
-            <img src={"http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"} className="card-img-top" alt="shirt" />
-            <div className="card-body">
-              <h5 className="card-title">{item.itemNo}</h5>
-              <h6 className="card-title">{item.description}</h6>
-            </div>
-          </div>
-        )}
-        <p>Total items: {builderItems.length}</p>
-        <button className="btn btn-success ml-2" onClick={() => pdfFromItems(builderItems)}>pdf</button>
-        <button className="btn btn-warning ml-2" onClick={handleClose}>close</button>
+    <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+      <section className="main-popup" style={{ height: "95%" }}>
+        <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+        <div className="popup-content">
+          <h1>Saved Items</h1>
+          <div className="separator"></div>
+          <CardDeck>
+            {builderItems.map(item =>
+              <Card key={item.id} style={{ width: "18rem" }}>
+                <Card.Img variant="top" src={"http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"} alt="shirt" />
+                <Card.Body>
+                  <Card.Title>{item.itemNo}</Card.Title>
+                  <Card.Text>{item.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            )}
+          </CardDeck>
+          <p><b>Total items:</b> {builderItems.length}</p>
+          <Button variant="success" onClick={() => pdfFromItems(builderItems)}>Create PDF from Saved Items</Button>
+        </div>
       </section>
     </div>
   );
