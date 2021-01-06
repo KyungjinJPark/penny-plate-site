@@ -59,8 +59,11 @@ const Filters = ({ onSend, filterType, query }) => {
   return (
     <>
       <p>{filterType}</p>
-      <ul>
-        {filters.map(filter => <li key={filter.name}><input type="checkbox" onChange={(event) => { changeFilters(event.target.checked, filter.name) }} />{filter.name}</li>)}
+      <ul style={{ listStyle: "none" }}>
+        {filters.map(filter => <li key={filter.name}>
+          <input type="checkbox" onChange={(event) => { changeFilters(event.target.checked, filter.name) }} />
+          {" " + filter.name}
+        </li>)}
       </ul>
     </>
   )
@@ -78,6 +81,15 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   const hideModal = () => {
     setShowCart(false);
   };
+  const [focusItem, setFocusItem] = useState({});
+  const [showProductPopUP, setShowProductPopUP] = useState(false);
+  const showPopUpModal = () => {
+    setShowProductPopUP(true);
+  };
+  const hidePopUpModal = () => {
+    setShowProductPopUP(false);
+  };
+  
   const searchStringArray = currentSearch.map(keyword => ("{description contains: \"" + keyword + "\"}"));
   const searchString = searchStringArray.join(","); 
   console.log(searchString);
@@ -95,10 +107,15 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
     return !(currentSearch.every((keyword) => {return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0)}));}));
   return (
     <div>
-      <button onClick={showModal}>PDF Items ({cartitems.length})</button>
+      <h1>Products</h1>
+      <Button>Filters</Button>{" "}
+      <Button onClick={showModal}>PDF Items ({cartitems.length})</Button>{" "}
+      <Button>Search</Button>
+      <div className="separator"></div>
       <Cart show={showCart} cartitems={cartitems} handleClose={hideModal} />
+      <ProductPopUp show={showProductPopUP} item={focusItem} handleClose={hidePopUpModal} />
       <div className="products-list">
-        {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} />)}
+        {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
       </div>
     </div>
   )
@@ -128,7 +145,8 @@ const Products = () => {
   console.log(currentSearch);
   return (<div className='products-wrapper'>
     <div className='products-sidebar'>
-      <h3>Filters</h3>
+      <h1>Filters</h1>
+      <div className="separator"></div>
       <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
       <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
       <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
@@ -146,16 +164,34 @@ const Products = () => {
 export default Products;
 
 
-const Product = ({ item, addToCart }) =>
-  <div className="single-product-wrapper">
-    <Card.Img src="https://www.teamcorp.us/wp-content/uploads/2018/09/9600.png" alt="..."></Card.Img>
+const Product = ({ item, addToCart, setFocusItem, showPopUpModal }) =>
+  <div className="single-product-wrapper" onClick={() => {
+    setFocusItem(item);
+    showPopUpModal();
+  }}>
+    <Card.Img
+      src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
+      alt="..."
+      style={{ background: "#000" }}
+    >
+
+    </Card.Img>
     <div className="single-product-text">
-      <h4>{item.itemNo}</h4>
-      <h4>{item.description}</h4>
+      {/* <h4>{item.itemNo}</h4> */}
+      <h4 className="single-product-description">{item.description}</h4>
       {/* <Card.Text>{item.application}</Card.Text> */}
       <Button variant="primary" onClick={() => addToCart(item)}>Add to PDF Builder</Button>
     </div>
   </div>;
+
+const ProductPopUp = ({ show, item, handleClose }) => {
+  return <div className={show ? "modal display-block" : "modal display-none"}>
+    <section className="main-modal">
+      {item.id}
+      <Button variant="primary" onClick={handleClose}>Close</Button>
+    </section>
+  </div>
+}
 
 const Cart = ({ show, cartitems, handleClose }) => {
   return (
