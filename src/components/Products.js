@@ -1,27 +1,58 @@
 
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-apollo';
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, Row, Col } from 'react-bootstrap';
 import { jsPDF } from "jspdf";
 
 import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from './all-products/queries';
 import logoImg from "../imgs/pennyplate-logo.png"
 
-const Search = ({onSearch}) => {
-  const [currText, setText] = useState("");
-
-  const doSearch = () => {
-    var keywords = (currText.replace(/\n/gi," ").trim().split(/[ ]+/));
-    onSearch(keywords);
+const Products = () => {
+  const [currentFilter, setFilter] = useState([]);
+  const [currentPType, setPType] = useState([]);
+  const [currentShape, setShape] = useState([]);
+  const [currentStock, setStock] = useState([]);
+  const [currentSearch, setSearch] = useState([""]);
+  const changeFilters = (newFilters) => {
+    setFilter(newFilters);
   }
+  const changePType = (newTypes) => {
+    setPType(newTypes);
+  }
+  const changeShape = (newShapes) => {
+    setShape(newShapes);
+  }
+  const changeStock = (newStocks) => {
+    setStock(newStocks);
+  }
+  const changeSearch = (newSearch) => {
+    setSearch(newSearch);
+  }
+  console.log(currentSearch);
+  return (<div className='products-wrapper'>
+    <div className='products-sidebar'>
+      <h1>Filters</h1>
+      <div className="separator"></div>
+      <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
+      <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
+      <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
+      <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
+    </div>
+    <div className='products-content'>
+      <ProductsList
+        currentFilter={currentFilter}
+        currentPType={currentPType}
+        currentShape={currentShape}
+        currentStock={currentStock}
+        currentSearch={currentSearch}
+        changeSearch={changeSearch}
+      />
+    </div>
+  </div>
+  );
+};
 
-  return (
-    <>
-      <input type="text" onChange={(event) => (setText(event.target.value))}></input>
-      <button onClick={doSearch}>Search</button>
-    </>
-  )
-}
+export default Products;
 
 const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
@@ -69,7 +100,23 @@ const Filters = ({ onSend, filterType, query }) => {
   )
 }
 
-const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch }) => {
+const Search = ({ onSearch }) => {
+  const [currText, setText] = useState("");
+
+  const doSearch = () => {
+    var keywords = (currText.replace(/\n/gi, " ").trim().split(/[ ]+/));
+    onSearch(keywords);
+  }
+
+  return (
+    <>
+      <input type="text" onChange={(event) => (setText(event.target.value))}></input>{" "}
+      <Button variant="secondary" onClick={doSearch}>Search</Button>
+    </>
+  )
+}
+
+const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -89,9 +136,9 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   const hidePopUpModal = () => {
     setShowProductPopUP(false);
   };
-  
+
   const searchStringArray = currentSearch.map(keyword => ("{description contains: \"" + keyword + "\"}"));
-  const searchString = searchStringArray.join(","); 
+  const searchString = searchStringArray.join(",");
   console.log(searchString);
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
@@ -104,16 +151,17 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   const items = productData.allProducts.filter((product => {
     const lowerProduct = product.description.toLowerCase();
     const id = product.itemNo.toLowerCase();
-    return !(currentSearch.every((keyword) => {return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0)}));}));
+    return !(currentSearch.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
+  }));
   return (
     <div>
       <h1>Products</h1>
-      <Button>Filters</Button>{" "}
-      <Button onClick={showModal}>PDF Items ({cartitems.length})</Button>{" "}
-      <Button>Search</Button>
+      <Button variant="secondary">Filters</Button>{" "}
+      <Button variant="secondary" onClick={showModal}>PDF Items ({cartitems.length})</Button>{" "}
+      <Search onSearch={changeSearch} />{" "}
       <div className="separator"></div>
       <Cart show={showCart} cartitems={cartitems} handleClose={hideModal} />
-      <ProductPopUp show={showProductPopUP} item={focusItem} handleClose={hidePopUpModal} />
+      <ProductPopUp show={showProductPopUP} item={focusItem} addToCart={addToCart} handleClose={hidePopUpModal} />
       <div className="products-list">
         {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
       </div>
@@ -121,47 +169,6 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   )
 }
 
-const Products = () => {
-  const [currentFilter, setFilter] = useState([]);
-  const [currentPType, setPType] = useState([]);
-  const [currentShape, setShape] = useState([]);
-  const [currentStock, setStock] = useState([]);
-  const [currentSearch, setSearch] = useState([""]);
-  const changeFilters = (newFilters) => {
-    setFilter(newFilters);
-  }
-  const changePType = (newTypes) => {
-    setPType(newTypes);
-  }
-  const changeShape = (newShapes) => {
-    setShape(newShapes);
-  }
-  const changeStock = (newStocks) => {
-    setStock(newStocks);
-  }
-  const changeSearch = (newSearch) => {
-    setSearch(newSearch);
-  }
-  console.log(currentSearch);
-  return (<div className='products-wrapper'>
-    <div className='products-sidebar'>
-      <h1>Filters</h1>
-      <div className="separator"></div>
-      <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
-      <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
-      <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
-      <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
-    </div>
-    <div className='products-content'>
-      <Search onSearch={changeSearch}/>
-      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock} currentSearch={currentSearch} />
-    </div>
-  </div>
-  );
-
-};
-
-export default Products;
 
 
 const Product = ({ item, addToCart, setFocusItem, showPopUpModal }) =>
@@ -180,15 +187,41 @@ const Product = ({ item, addToCart, setFocusItem, showPopUpModal }) =>
       {/* <h4>{item.itemNo}</h4> */}
       <h4 className="single-product-description">{item.description}</h4>
       {/* <Card.Text>{item.application}</Card.Text> */}
-      <Button variant="primary" onClick={() => addToCart(item)}>Add to PDF Builder</Button>
+      {/* <Button variant="primary" onClick={() => addToCart(item)}>Add to PDF Builder</Button> */}
     </div>
   </div>;
 
-const ProductPopUp = ({ show, item, handleClose }) => {
+const ProductPopUp = ({ show, item, addToCart, handleClose }) => {
   return <div className={show ? "modal display-block" : "modal display-none"}>
     <section className="main-modal">
-      {item.id}
-      <Button variant="primary" onClick={handleClose}>Close</Button>
+      <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+      <div className="product-popup-content">
+        <h1>{item.description}</h1>
+        <p><em>{item.itemNo}</em></p>
+        <Row>
+          <Col>
+            <img
+              src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
+              alt="..."
+              style={{ background: "#000" }}
+            />
+          </Col>
+          <Col>
+            <p><b>Top Out:</b> 9″<br />
+              <b>Top In:</b> 8 5/8″<br />
+              <b>Bottom:</b> 8 3/16″<br />
+              <b>Vertical Depth:</b> 53/64″<br />
+              <b>Capacity (Fl. Oz.):</b> 19.27<br />
+              <b>Rim:</b> FC<br />
+              <b>Lbs.:</b> 24<br />
+              <b>Case Cube:</b> 5.20<br />
+              <b>Pack Size:</b> 750<br />
+              <b>Cases/Pallet:</b> 16<br />
+            </p>
+            <Button variant="primary" onClick={() => addToCart(item)}>Add to PDF Builder</Button>
+          </Col>
+        </Row>
+      </div>
     </section>
   </div>
 }
@@ -222,7 +255,7 @@ const pdfFromCart = (cartitems) => {
 
   var img = new Image();
   img.src = logoImg;
-  doc.addImage(img, "PNG", 0.65, 0.5, 1, 1.5);
+  doc.addImage(img, "PNG", 0.65, 0.5, 3, 1.5);
 
   doc.setFontSize(12);
   doc.setTextColor("#000000");
