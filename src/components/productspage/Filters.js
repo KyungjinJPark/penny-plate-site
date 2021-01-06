@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useQuery } from 'react-apollo';
+import { useState, useEffect } from "react";
+import { useQuery } from "react-apollo";
 
 const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
@@ -28,14 +28,24 @@ const Filters = ({ onSend, filterType, query }) => {
         onSend(currFilters);
       }
     }
-  },
-    [filterLoading, filterError, currFilters, onSend]);
-  if (filterLoading) return <div>Fetching {filterType} filters.....</div>
-  if (filterError) return <div>Error fetching {filterType} filters</div>
-  const filters = filterData.__type.enumValues;
-  const allFilters = filters.map(filter => filter.name);
-  return (
-    <>
+  }, [filterLoading, filterError, currFilters, onSend]);
+
+  if (filterLoading) {
+    return <>
+      <p>{filterType}</p>
+      <p>Fetching filters.....</p>
+    </>
+  }
+  else if (filterError) {
+    return <>
+      <p>{filterType}</p>
+      <p>Error fetching filters</p>
+    </>
+  }
+  else {
+    const filters = filterData.__type.enumValues;
+    const allFilters = filters.map(filter => filter.name); // TODO: this is unused
+    return <>
       <p>{filterType}</p>
       <ul style={{ listStyle: "none" }}>
         {filters.map(filter => <li key={filter.name}>
@@ -44,7 +54,7 @@ const Filters = ({ onSend, filterType, query }) => {
         </li>)}
       </ul>
     </>
-  )
+  }
 }
 
 export default Filters;

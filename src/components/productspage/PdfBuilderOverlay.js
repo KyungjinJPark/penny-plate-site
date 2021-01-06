@@ -2,6 +2,7 @@ import { jsPDF } from "jspdf";
 
 import logoImg from "../../imgs/pennyplate-logo.png"
 
+// TODO: convert to React Boostrap components
 const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
   return (
     <div className={show ? "modal display-block" : "modal display-none"}>
@@ -26,6 +27,7 @@ const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
 export default PdfBuilderOverlay;
 
 
+// TODO: output proper PDF
 const pdfFromItems = (builderItems) => {
   const doc = new jsPDF("portrait", "in", "letter");
 
