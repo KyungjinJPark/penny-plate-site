@@ -1,0 +1,21 @@
+#homepage-carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.homepage-carousel-img {
+  height: 500px;
+  object-fit: cover;
+}
+
+.homepage-button {
+  position: relative;
+  z-index: 2;
+  margin-top: -175px;
+  left: 50%;
+  -ms-transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%);
+
+  padding: 10px 25px;
+  box-shadow: 0 5px 10px black ;
+}
