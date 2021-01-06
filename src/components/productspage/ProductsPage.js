@@ -6,6 +6,7 @@ import Filters from "./Filters";
 import ProductsList from "./ProductDisplay";
 
 const ProductsPage = () => {
+  // TODO: why is it named "Filter" when its only for the application?
   const [currentFilter, setFilter] = useState([]);
   const [currentPType, setPType] = useState([]);
   const [currentShape, setShape] = useState([]);
