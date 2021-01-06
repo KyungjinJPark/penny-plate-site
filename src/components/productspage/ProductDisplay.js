@@ -44,20 +44,21 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
     const items = productData.allProducts.filter((product => {
       const lowerProduct = product.description.toLowerCase();
       const id = product.itemNo.toLowerCase();
+      // TODO: this is throwing a warning
       return !(currentSearch.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
     }));
-    // TODO: move the separator and everything above out of the display; The buttons do nothing! 
+    // TODO: The buttons do nothing! 
     return (
       <div>
         <Button variant="secondary">Filters</Button>{" "}
         <Button variant="secondary" onClick={showModal}>PDF Items ({builderItems.length})</Button>{" "}
         <Search onSearch={changeSearch} />{" "}
         <div className="separator"></div>
-        <PdfBuilderOverlay show={showBuilder} builderItems={builderItems} handleClose={hideModal} />
-        <ProductPopUp show={showProductPopUP} item={focusItem} addToBuilder={addToBuilder} handleClose={hidePopUpModal} />
         <div className="products-list">
           {items.map(item => <Product key={item.id} item={item} addToBuilder={addToBuilder} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
         </div>
+        <PdfBuilderOverlay show={showBuilder} builderItems={builderItems} handleClose={hideModal} />
+        <ProductPopUp show={showProductPopUP} item={focusItem} addToBuilder={addToBuilder} handleClose={hidePopUpModal} />
       </div>
     )
   }
@@ -100,7 +101,7 @@ const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
     </div>
   </div>;
 
-// TODO do the CSS for this so it looks OK
+// TODO do the CSS for this so it looks OK; Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
   return <div className={show ? "modal display-block" : "modal display-none"}>
     <section className="main-modal">
