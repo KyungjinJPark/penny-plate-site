@@ -1,41 +1,41 @@
 import { Container, Row, Col, Carousel, Button } from 'react-bootstrap'
 
-import carouselImg1 from "../imgs/turkey.jfif"
-import carouselImg2 from "../imgs/lasagna.jfif"
-import carouselImg3 from "../imgs/kabob.jfif"
-import sectionImg from "../imgs/PennyPlateCookingSpree.jpg"
+import "./homepage.css"
+import carouselImg1 from "../../imgs/turkey.jfif"
+import carouselImg2 from "../../imgs/lasagna.jfif"
+import carouselImg3 from "../../imgs/kabob.jfif"
+import sectionImg from "../../imgs/PennyPlateCookingSpree.jpg"
 
 const HomePage = () => {
+  const carouselImgData = [
+    {
+      src: carouselImg1,
+      alt: "Image of a turkey in a Pan",
+    },
+    {
+      src: carouselImg2,
+      alt: "Image of lasagna in a Pan",
+    },
+    {
+      src: carouselImg2,
+      alt: "Image of kabobs in a Pan",
+    },
+  ];
+
   return (
     <div>
-      <Carousel style={{ position: "relative", zIndex: "1" }}>
-        <Carousel.Item>
-          <img
-            src={carouselImg1}
-            height='500px'
-            style={{ objectFit: 'cover' }}
-            className='d-block w-100'
-            alt='Image of a turkey in a Pan'
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            src={carouselImg2}
-            height='500px'
-            style={{ objectFit: 'cover' }}
-            className='d-block w-100'
-            alt='Image of lasagna in a Pan'
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            src={carouselImg3}
-            height='500px'
-            style={{ objectFit: 'cover' }}
-            className='d-block w-100'
-            alt='Image of kabobs in a Pan'
-          />
-        </Carousel.Item>
+      <Carousel>
+        {carouselImgData.map(imgData => {
+          return (
+            <Carousel.Item>
+              <img
+                src={imgData.src}
+                className='d-block w-100 homepage-carousel-img'
+                alt={imgData.alt}
+              />
+            </Carousel.Item>
+          )
+        })}
       </Carousel>
       <Button
         className="homepage-button"
@@ -68,7 +68,7 @@ const HomePage = () => {
           </Col>
         </Row>
       </Container>
-    </div >
+    </div>
   )
 }
 
