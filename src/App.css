@@ -3,6 +3,20 @@
   align-items: stretch;
 }
 
+.products-list {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.single-product-wrapper {
+  max-width: 320px;
+  border: black 1px solid;
+}
+
+.single-product-text {
+  padding: 10px 10px;
+}
+
 .modal {
   position: fixed;
   top: 0;
