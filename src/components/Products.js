@@ -91,7 +91,8 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   if (productError) return <div>Error fetching products</div>
   const items = productData.allProducts.filter((product => {
     const lowerProduct = product.description.toLowerCase();
-    return !(currentSearch.every((keyword) => {return lowerProduct.indexOf(keyword.toLowerCase()) == -1}));}));
+    const id = product.id.toLowerCase();
+    return !(currentSearch.every((keyword) => {return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0)}));}));
   return (
     <div>
       <button onClick={showModal}>PDF Items ({cartitems.length})</button>
