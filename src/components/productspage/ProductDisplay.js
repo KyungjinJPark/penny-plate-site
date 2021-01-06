@@ -101,23 +101,23 @@ const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
     </div>
   </div>;
 
-// TODO do the CSS for this so it looks OK; Make a query so this displays real data
+// TODO: Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
-  return <div className={show ? "modal display-block" : "modal display-none"}>
-    <section className="main-modal">
+  return <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+    <section className="main-popup">
       <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
-      <div className="product-popup-content">
+      <div className="popup-content">
         <h1>{item.description}</h1>
         <p><em>{item.itemNo}</em></p>
         <Row>
-          <Col>
+          <Col xs={12} md={7}>
             <img
               src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
+              className="product-popup-image"
               alt="..."
-              style={{ background: "#000" }}
             />
           </Col>
-          <Col>
+          <Col xs={12} md={5}>
             <p><b>Top Out:</b> 9″<br />
               <b>Top In:</b> 8 5/8″<br />
               <b>Bottom:</b> 8 3/16″<br />
