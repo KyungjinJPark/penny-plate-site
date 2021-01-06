@@ -33,7 +33,8 @@ const Filters = ({ onSend, filterType, query }) => {
       else {
         onSend(currFilters);
       }
-    }},
+    }
+  },
     [filterLoading, filterError, currFilters, onSend]);
   if (filterLoading) return <div>Fetching {filterType} filters.....</div>
   if (filterError) return <div>Error fetching {filterType} filters</div>
@@ -49,7 +50,7 @@ const Filters = ({ onSend, filterType, query }) => {
   )
 }
 
-const ProductsList = ({currentFilter, currentPType, currentShape, currentStock}) => {
+const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock }) => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -61,7 +62,7 @@ const ProductsList = ({currentFilter, currentPType, currentShape, currentStock})
   const hideModal = () => {
     setShowCart(false);
   };
-  const {loading: productLoading, error: productError, data: productData} = useQuery(PRODUCTS_QUERY, {
+  const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
   });
   if (productLoading) {
@@ -74,7 +75,9 @@ const ProductsList = ({currentFilter, currentPType, currentShape, currentStock})
     <div>
       <button onClick={showModal}>PDF Items ({cartitems.length})</button>
       <Cart show={showCart} cartitems={cartitems} handleClose={hideModal} />
-      {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} />)}
+      <div className="products-list">
+        {items.map(item => <Product key={item.id} item={item} addToCart={addToCart} />)}
+      </div>
     </div>
   )
 }
@@ -99,13 +102,13 @@ const Products = () => {
   return (<div className='products-wrapper'>
     <div className='products-sidebar'>
       <h3>Filters</h3>
-        <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY}/>
-        <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY}/>
-        <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY}/>
-        <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY}/>
+      <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
+      <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
+      <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
+      <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
     </div>
     <div className='products-content'>
-      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock}/>
+      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock} />
     </div>
   </div>
   );
@@ -116,15 +119,15 @@ export default Products;
 
 
 const Product = ({ item, addToCart }) =>
-  <Card style={{ width: "18rem" }}>
+  <div className="single-product-wrapper">
     <Card.Img src="https://www.teamcorp.us/wp-content/uploads/2018/09/9600.png" alt="..."></Card.Img>
-    <Card.Body>
-      <Card.Title>{item.itemNo}</Card.Title>
-      <Card.Text>{item.description}</Card.Text>
-      <Card.Text>{item.application}</Card.Text>
+    <div className="single-product-text">
+      <h4>{item.itemNo}</h4>
+      <h4>{item.description}</h4>
+      {/* <Card.Text>{item.application}</Card.Text> */}
       <Button variant="primary" onClick={() => addToCart(item)}>Add to PDF Builder</Button>
-    </Card.Body>
-  </Card>;
+    </div>
+  </div>;
 
 const Cart = ({ show, cartitems, handleClose }) => {
   return (
