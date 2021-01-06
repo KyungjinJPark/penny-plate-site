@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { useQuery } from 'react-apollo';
-import { Button, Card, Row, Col } from 'react-bootstrap';
+import { useState } from "react";
+import { useQuery } from "react-apollo";
+import { Button, Card, Row, Col } from "react-bootstrap";
 
-import { PRODUCTS_QUERY } from './queries';
+import { PRODUCTS_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
 
 const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
   const [builderItems, setBuilderItems] = useState([]);
   const addToBuilder = (item) => {
-    //TODO add a check to not add duplicates
+    // TODO: add a check to not add duplicates
     setBuilderItems(oldItems => oldItems.concat([item]));
   }
   const [showBuilder, setShowBuilder] = useState(false);
@@ -37,25 +37,30 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
     console.log("reload");
     return <div>Fetching products.....</div>
   }
-  if (productError) return <div>Error fetching products</div>
-  const items = productData.allProducts.filter((product => {
-    const lowerProduct = product.description.toLowerCase();
-    const id = product.itemNo.toLowerCase();
-    return !(currentSearch.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
-  }));
-  return (
-    <div>
-      <Button variant="secondary">Filters</Button>{" "}
-      <Button variant="secondary" onClick={showModal}>PDF Items ({builderItems.length})</Button>{" "}
-      <Search onSearch={changeSearch} />{" "}
-      <div className="separator"></div>
-      <PdfBuilderOverlay show={showBuilder} builderItems={builderItems} handleClose={hideModal} />
-      <ProductPopUp show={showProductPopUP} item={focusItem} addToBuilder={addToBuilder} handleClose={hidePopUpModal} />
-      <div className="products-list">
-        {items.map(item => <Product key={item.id} item={item} addToBuilder={addToBuilder} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
+  else if (productError) {
+    return <div>Error fetching products</div>
+  }
+  else {
+    const items = productData.allProducts.filter((product => {
+      const lowerProduct = product.description.toLowerCase();
+      const id = product.itemNo.toLowerCase();
+      return !(currentSearch.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
+    }));
+    // TODO: move the separator and everything above out of the display; The buttons do nothing! 
+    return (
+      <div>
+        <Button variant="secondary">Filters</Button>{" "}
+        <Button variant="secondary" onClick={showModal}>PDF Items ({builderItems.length})</Button>{" "}
+        <Search onSearch={changeSearch} />{" "}
+        <div className="separator"></div>
+        <PdfBuilderOverlay show={showBuilder} builderItems={builderItems} handleClose={hideModal} />
+        <ProductPopUp show={showProductPopUP} item={focusItem} addToBuilder={addToBuilder} handleClose={hidePopUpModal} />
+        <div className="products-list">
+          {items.map(item => <Product key={item.id} item={item} addToBuilder={addToBuilder} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default ProductsList;
@@ -69,14 +74,13 @@ const Search = ({ onSearch }) => {
     onSearch(keywords);
   }
 
-  return (
-    <>
-      <input type="text" onChange={(event) => (setText(event.target.value))}></input>{" "}
-      <Button variant="secondary" onClick={doSearch}>Search</Button>
-    </>
-  )
+  return <>
+    <input type="text" onChange={(event) => (setText(event.target.value))}></input>{" "}
+    <Button variant="secondary" onClick={doSearch}>Search</Button>
+  </>
 }
 
+// TODO: what to do w/ addToBuilder?; display ItemNo? 
 const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
   <div className="single-product-wrapper" onClick={() => {
     setFocusItem(item);
@@ -87,16 +91,16 @@ const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
       alt="..."
       style={{ background: "#000" }}
     >
-
+      {/* TODO: Does something go between Card.Img */}
     </Card.Img>
     <div className="single-product-text">
       {/* <h4>{item.itemNo}</h4> */}
       <h4 className="single-product-description">{item.description}</h4>
-      {/* <Card.Text>{item.application}</Card.Text> */}
       {/* <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button> */}
     </div>
   </div>;
 
+// TODO do the CSS for this so it looks OK
 const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
   return <div className={show ? "modal display-block" : "modal display-none"}>
     <section className="main-modal">
