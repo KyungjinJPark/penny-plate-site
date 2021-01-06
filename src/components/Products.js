@@ -7,6 +7,22 @@ import { jsPDF } from "jspdf";
 import { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from './all-products/queries';
 import logoImg from "../imgs/pennyplate-logo.png"
 
+const Search = ({onSearch}) => {
+  const [currText, setText] = useState("");
+
+  const doSearch = () => {
+    var keywords = (currText.replace(/\n/gi," ").trim().split(/[ ]+/));
+    onSearch(keywords);
+  }
+
+  return (
+    <>
+      <input type="text" onChange={(event) => (setText(event.target.value))}></input>
+      <button onClick={doSearch}>Search</button>
+    </>
+  )
+}
+
 const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
   const { loading: filterLoading, error: filterError, data: filterData } = useQuery(query);
@@ -50,7 +66,7 @@ const Filters = ({ onSend, filterType, query }) => {
   )
 }
 
-const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock }) => {
+const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch }) => {
   const [cartitems, setCartItems] = useState([]);
   const addToCart = (item) => {
     setCartItems(oldCart => oldCart.concat([item]));
@@ -62,6 +78,9 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock 
   const hideModal = () => {
     setShowCart(false);
   };
+  const searchStringArray = currentSearch.map(keyword => ("{description contains: \"" + keyword + "\"}"));
+  const searchString = searchStringArray.join(","); 
+  console.log(searchString);
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
   });
@@ -70,7 +89,9 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock 
     return <div>Fetching products.....</div>
   }
   if (productError) return <div>Error fetching products</div>
-  const items = productData.allProducts;
+  const items = productData.allProducts.filter((product => {
+    const lowerProduct = product.description.toLowerCase();
+    return !(currentSearch.every((keyword) => {return lowerProduct.indexOf(keyword.toLowerCase()) == -1}));}));
   return (
     <div>
       <button onClick={showModal}>PDF Items ({cartitems.length})</button>
@@ -87,6 +108,7 @@ const Products = () => {
   const [currentPType, setPType] = useState([]);
   const [currentShape, setShape] = useState([]);
   const [currentStock, setStock] = useState([]);
+  const [currentSearch, setSearch] = useState([""]);
   const changeFilters = (newFilters) => {
     setFilter(newFilters);
   }
@@ -99,6 +121,10 @@ const Products = () => {
   const changeStock = (newStocks) => {
     setStock(newStocks);
   }
+  const changeSearch = (newSearch) => {
+    setSearch(newSearch);
+  }
+  console.log(currentSearch);
   return (<div className='products-wrapper'>
     <div className='products-sidebar'>
       <h3>Filters</h3>
@@ -108,7 +134,8 @@ const Products = () => {
       <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
     </div>
     <div className='products-content'>
-      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock} />
+      <Search onSearch={changeSearch}/>
+      <ProductsList currentFilter={currentFilter} currentPType={currentPType} currentShape={currentShape} currentStock={currentStock} currentSearch={currentSearch} />
     </div>
   </div>
   );
