@@ -71,3 +71,11 @@
   height: auto;
   max-height: 95%;
 }
+
+.saved-popup-content {
+  padding: 4em 0em 4em 6em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: 100%;
+}
