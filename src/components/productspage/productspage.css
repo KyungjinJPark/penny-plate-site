@@ -79,3 +79,20 @@
   align-items: flex-start;
   max-height: 100%;
 }
+.saved-item-row {
+  border-bottom: 1px #999 solid;
+}
+.saved-item-img-cell {
+  max-width: 30%;
+  padding: 1em 0;
+  text-align: center;
+}
+.saved-item-img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+}
+.saved-item-desc {
+  width: 70%;
+  padding-left: 1em;
+}

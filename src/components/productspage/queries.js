@@ -61,5 +61,30 @@ query {
 }
 `;
 
+const FOCUS_PRODUCT_INFO_QUERY = gql`
+query ProductInfoQuery($itemId: [String!]) {
+  products(where: {id: "$itemId"}) {
+    application
+    bottom
+    caseCubeFt
+    caseWeight
+    depth
+    hi
+    itemNo
+    orderQuantity
+    palletWeight
+    panCapacity
+    pansPerCase
+    productType
+    rimStyle
+    shape
+    stockType
+    ti
+    topIn
+    topOut
+  }
+}
 
-export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY };
+`;
+
+export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY, FOCUS_PRODUCT_INFO_QUERY };
