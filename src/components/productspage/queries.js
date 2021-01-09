@@ -60,10 +60,11 @@ query {
   }
 }
 `;
-
+//$itemId: String!
 const FOCUS_PRODUCT_INFO_QUERY = gql`
-query ProductInfoQuery($itemId: [String!]) {
-  products(where: {id: "$itemId"}) {
+query ProductInfoQuery($itemId: ID!){
+  products(where: {id: $itemId}) 
+  {
     application
     bottom
     caseCubeFt
