@@ -26,10 +26,6 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   const hidePopUpModal = () => {
     setShowProductPopUP(false);
   };
-
-  const searchStringArray = currentSearch.map(keyword => ("{description contains: \"" + keyword + "\"}"));
-  const searchString = searchStringArray.join(",");
-  console.log(searchString);
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
   });
