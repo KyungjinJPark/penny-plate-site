@@ -126,7 +126,8 @@ const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
     </div>
   }
   else {
-    const info = infoData;
+    const info = infoData.products;
+    console.log("item info recieved!");
     console.log(info);
     // TODO: The buttons do nothing! 
     return <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
@@ -144,16 +145,28 @@ const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
               />
             </Col>
             <Col xs={12} md={5}>
-              <p><b>Top Out:</b> 9″<br />
-                <b>Top In:</b> 8 5/8″<br />
-                <b>Bottom:</b> 8 3/16″<br />
-                <b>Vertical Depth:</b> 53/64″<br />
-                <b>Capacity (Fl. Oz.):</b> 19.27<br />
-                <b>Rim:</b> FC<br />
-                <b>Lbs.:</b> 24<br />
-                <b>Case Cube:</b> 5.20<br />
-                <b>Pack Size:</b> 750<br />
-                <b>Cases/Pallet:</b> 16<br />
+              <p>
+                <b>Product Type:</b> {info.productType}<br />
+                <b>Shape:</b> {info.shape}<br />
+                <b>Application:</b> {info.application}<br />
+                <b>Top In:</b> {info.topIn}<br />
+                <b>Top Out:</b> {info.topOut}<br />
+                <b>Bottom:</b> {info.bottom}<br />
+                <b>Vertical Depth:</b> {info.depth}<br />
+                <b>Capacity (Fl. Oz.):</b> {info.panCapacity}<br />
+                <b>Rim:</b> {info.rimStyle}<br />
+
+                <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
+                <b>Case Weight (Lbs):</b> {info.caseWeight}<br />
+                <b>Pans per Case:</b> {info.pansPerCase}<br />
+
+                <b>Pallet Weight:</b> {info.palletWeight}<br />
+
+                <b>Stock Type:</b> {info.stockType}<br />
+                <b>Order Quantity:</b> {info.orderQuantity}<br />
+
+                <b>HI:</b> {info.hi}<br />
+                <b>TI:</b> {info.ti}<br />
               </p>
               <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button>
             </Col>
