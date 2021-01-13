@@ -37,13 +37,13 @@ const HomePage = () => {
       })}
     </Carousel>
     <Button
-      className="homepage-button"
+      className="homepage-button button-pos-1"
       variant="primary"
       href="/catalog"
     >
       Browse Our Catalog
       </Button>
-    <Container>
+    <Container className="normal-container">
       <Row>
         <Col>
           <h1>Over Half a Century of Innovation</h1>
@@ -58,7 +58,7 @@ const HomePage = () => {
             height="525px"
             alt="Image of a Pan" />
           <Button
-            className="homepage-button"
+            className="homepage-button button-pos-2"
             variant="primary"
             href="/new-items"
           >
