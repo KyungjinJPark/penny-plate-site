@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "react-apollo";
 import { Button, Card, Row, Col } from "react-bootstrap";
 
-import { PRODUCTS_QUERY } from "./queries";
+import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
 
 const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
@@ -26,10 +26,6 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
   const hidePopUpModal = () => {
     setShowProductPopUP(false);
   };
-
-  const searchStringArray = currentSearch.map(keyword => ("{description contains: \"" + keyword + "\"}"));
-  const searchString = searchStringArray.join(",");
-  console.log(searchString);
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
   });
@@ -101,38 +97,82 @@ const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
     </div>
   </div>;
 
-// TODO do the CSS for this so it looks OK; Make a query so this displays real data
+// TODO: Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
-  return <div className={show ? "modal display-block" : "modal display-none"}>
-    <section className="main-modal">
-      <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
-      <div className="product-popup-content">
-        <h1>{item.description}</h1>
-        <p><em>{item.itemNo}</em></p>
-        <Row>
-          <Col>
-            <img
-              src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
-              alt="..."
-              style={{ background: "#000" }}
-            />
-          </Col>
-          <Col>
-            <p><b>Top Out:</b> 9″<br />
-              <b>Top In:</b> 8 5/8″<br />
-              <b>Bottom:</b> 8 3/16″<br />
-              <b>Vertical Depth:</b> 53/64″<br />
-              <b>Capacity (Fl. Oz.):</b> 19.27<br />
-              <b>Rim:</b> FC<br />
-              <b>Lbs.:</b> 24<br />
-              <b>Case Cube:</b> 5.20<br />
-              <b>Pack Size:</b> 750<br />
-              <b>Cases/Pallet:</b> 16<br />
-            </p>
-            <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button>
-          </Col>
-        </Row>
+  console.log(item.id)
+  const { loading: infoLoading, error: infoError, data: infoData } = useQuery(FOCUS_PRODUCT_INFO_QUERY, {
+    variables: { itemId: item.id },
+  });
+  if (infoLoading) {
+    return (
+      <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+        <section className="main-popup">
+          <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+          <div className="popup-content">
+            <p>Fetching products.....</p>
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
+    )
+  }
+  else if (infoError) {
+    return <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+      <section className="main-popup">
+        <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+        <div className="popup-content">
+          <p>Error fetching products</p>
+        </div>
+      </section>
+    </div>
+  }
+  else {
+    const info = infoData.products;
+    console.log("item info recieved!");
+    console.log(info);
+    // TODO: The buttons do nothing! 
+    return <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+      <section className="main-popup">
+        <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+        <div className="popup-content">
+          <h1>{item.description}</h1>
+          <p><em>{item.itemNo}</em></p>
+          <Row>
+            <Col xs={12} md={7}>
+              <img
+                src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
+                className="product-popup-image"
+                alt="..."
+              />
+            </Col>
+            <Col xs={12} md={5}>
+              <p>
+                <b>Product Type:</b> {info.productType}<br />
+                <b>Shape:</b> {info.shape}<br />
+                <b>Application:</b> {info.application}<br />
+                <b>Top In:</b> {info.topIn}<br />
+                <b>Top Out:</b> {info.topOut}<br />
+                <b>Bottom:</b> {info.bottom}<br />
+                <b>Vertical Depth:</b> {info.depth}<br />
+                <b>Capacity (Fl. Oz.):</b> {info.panCapacity}<br />
+                <b>Rim:</b> {info.rimStyle}<br />
+
+                <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
+                <b>Case Weight (Lbs):</b> {info.caseWeight}<br />
+                <b>Pans per Case:</b> {info.pansPerCase}<br />
+
+                <b>Pallet Weight:</b> {info.palletWeight}<br />
+
+                <b>Stock Type:</b> {info.stockType}<br />
+                <b>Order Quantity:</b> {info.orderQuantity}<br />
+
+                <b>HI:</b> {info.hi}<br />
+                <b>TI:</b> {info.ti}<br />
+              </p>
+              <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button>
+            </Col>
+          </Row>
+        </div>
+      </section>
+    </div>
+  }
 }

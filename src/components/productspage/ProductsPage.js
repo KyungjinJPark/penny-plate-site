@@ -28,7 +28,7 @@ const ProductsPage = () => {
     setSearch(newSearch);
   }
 
-  console.log(currentSearch);
+  console.log(currentFilter);
   return (
     <div className="products-wrapper">
       <div className="products-sidebar">

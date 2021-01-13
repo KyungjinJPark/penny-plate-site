@@ -1,24 +1,43 @@
 import { jsPDF } from "jspdf";
+import { Button } from "react-bootstrap";
 
 import logoImg from "../../imgs/pennyplate-logo.png"
 
-// TODO: convert to React Boostrap components
 const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
   return (
-    <div className={show ? "modal display-block" : "modal display-none"}>
-      <section className="main-modal">
-        {builderItems.map(item =>
-          <div key={item.id} className="card" style={{ width: "18rem" }}>
-            <img src={"http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"} className="card-img-top" alt="shirt" />
-            <div className="card-body">
-              <h5 className="card-title">{item.itemNo}</h5>
-              <h6 className="card-title">{item.description}</h6>
-            </div>
+    <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
+      <section className="main-popup" style={{ height: "95%" }}>
+        <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
+        <div className="popup-content saved-popup-content">
+          <div>
+            <h1>Saved Items</h1>
+            <div className="separator"></div>
           </div>
-        )}
-        <p>Total items: {builderItems.length}</p>
-        <button className="btn btn-success ml-2" onClick={() => pdfFromItems(builderItems)}>pdf</button>
-        <button className="btn btn-warning ml-2" onClick={handleClose}>close</button>
+          <div style={{ overflow: "auto", width: "100%" }}>
+            <table style={{ width: "100%", background: "#EEEEEE" }}>
+              <tbody>
+                {builderItems.map(item =>
+                  <tr key={item.id} className="saved-item-row">
+                    <td className="saved-item-img-cell">
+                      <img
+                        className="saved-item-img"
+                        src={"http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"}
+                        alt="..." />
+                    </td>
+                    <td className="saved-item-desc">
+                      <p>{item.itemNo}</p>
+                      <h1>{item.description}</h1>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <p style={{ marginBottom: "3px" }}><b>Total items:</b> {builderItems.length}</p>
+            <Button variant="success" onClick={() => pdfFromItems(builderItems)}>Create PDF from Saved Items</Button>
+          </div>
+        </div>
       </section>
     </div>
   );

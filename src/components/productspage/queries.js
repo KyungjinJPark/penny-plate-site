@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 const PRODUCTS_QUERY = gql`
 query ProductQuery($application: [Application!], $productType: [ProductType!], $shape: [Shape!], $stock: [StockType!]){
-  allProducts(where: {application_in: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock}) 
+  allProducts(where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock}) 
   {
     id
     itemNo
@@ -60,6 +60,32 @@ query {
   }
 }
 `;
+//$itemId: String!
+const FOCUS_PRODUCT_INFO_QUERY = gql`
+query ProductInfoQuery($itemId: ID!){
+  products(where: {id: $itemId}) 
+  {
+    application
+    bottom
+    caseCubeFt
+    caseWeight
+    depth
+    hi
+    itemNo
+    orderQuantity
+    palletWeight
+    panCapacity
+    pansPerCase
+    productType
+    rimStyle
+    shape
+    stockType
+    ti
+    topIn
+    topOut
+  }
+}
 
+`;
 
-export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY };
+export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY, FOCUS_PRODUCT_INFO_QUERY };
