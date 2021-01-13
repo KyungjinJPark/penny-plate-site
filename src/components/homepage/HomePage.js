@@ -45,17 +45,17 @@ const HomePage = () => {
       </Button>
     <Container className="normal-container">
       <Row>
-        <Col>
+        <Col xs={12} md={5}>
           <h1>Over Half a Century of Innovation</h1>
           <div className="separator"></div>
           <p>Over the past half century, Penny Plate has established its position as an industry leader and the largest independently owned manufacturer of aluminum food containers for North America’s packer processor industry.
               <br /><br />
               We remain a family owned and operated business with a strong commitment to consistently provide the highest quality products and service to our valued customers.</p>
         </Col>
-        <Col>
+        <Col xs={12} md={7}>
           <img
             src={sectionImg}
-            height="525px"
+            width="100%"
             alt="Image of a Pan" />
           <Button
             className="homepage-button button-pos-2"
