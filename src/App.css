@@ -7,10 +7,3 @@ p {
   font-weight: 400;
   font-size: 22px;
 }
-
-.separator {
-  width: 48px;
-  height: 3px;
-  background-color: #DB3934;
-  margin: 20px 0;
-}

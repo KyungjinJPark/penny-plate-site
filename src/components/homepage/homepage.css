@@ -10,12 +10,20 @@
 
 .homepage-button {
   position: relative;
-  z-index: 2;
-  margin-top: -175px;
+  z-index: 5;
   left: 50%;
   -ms-transform: translate(-50%, 0%);
   transform: translate(-50%, 0%);
 
-  padding: 10px 25px;
-  box-shadow: 0 5px 10px black ;
+  font-size: 18px;
+  font-weight: 700;
+
+  padding: 15px 40px;
+  box-shadow: 0 4px 4px #0000006c;
+}
+.button-pos-1 {
+  margin-top: -190px;
+}
+.button-pos-2 {
+  margin-top: -300px;
 }

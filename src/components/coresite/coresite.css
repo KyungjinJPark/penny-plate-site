@@ -1,5 +1,16 @@
+.normal-container {
+  padding-top: 5em;
+  padding-bottom: 5em;
+}
+
+.separator {
+  width: 48px;
+  height: 3px;
+  background-color: #DB3934;
+  margin: 20px 0;
+}
+
 #footer {
-  margin-top: 2em;
   color: #FFFFFF;
   background-color: #252323;
 }

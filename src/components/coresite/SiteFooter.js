@@ -16,8 +16,8 @@ const SiteFooter = () => <footer id="footer">
         <p className="footer-text">
           <b>Telephone</b>: 856-429-7583<br />
           <b>Toll Free</b>: 1-800-527-9909<br />
-          <b>Fax</b>: 804-897-1926
-      </p>
+          {/* <b>Fax</b>: 804-897-1926 */}
+        </p>
       </Col>
       <Col xs={6}>
         <p className="footer-text">
