@@ -3,6 +3,7 @@ import { useQuery } from "react-apollo";
 
 const Filters = ({ onSend, filterType, query }) => {
   const [currFilters, setCurrFilters] = useState([]);
+  const [allFilters, setAllFilters] = useState([]);
   const { loading: filterLoading, error: filterError, data: filterData } = useQuery(query);
   const changeFilters = (checked, name) => {
     const newFilters = [...currFilters];
@@ -19,16 +20,22 @@ const Filters = ({ onSend, filterType, query }) => {
     }
     setCurrFilters(newFilters);
   }
-  useEffect((allFilters) => {
+  useEffect(() => {
     if (!(filterLoading || filterError)) {
-      if (currFilters.length === 0) {
-        onSend(allFilters);
-      }
-      else {
-        onSend(currFilters);
-      }
+      const filters = filterData.__type.enumValues;
+      setAllFilters(filters.map(filter => filter.name));
+      onSend(allFilters);
+      setCurrFilters([]);
     }
-  }, [filterLoading, filterError, currFilters, onSend]);
+  }, [filterLoading, filterError, filterData]);
+  useEffect(() => {
+    if (currFilters.length == 0) {
+      onSend(allFilters);
+    }
+    else {
+      onSend(currFilters);
+    }
+  }, [currFilters])
 
   if (filterLoading) {
     return <>
@@ -44,7 +51,7 @@ const Filters = ({ onSend, filterType, query }) => {
   }
   else {
     const filters = filterData.__type.enumValues;
-    const allFilters = filters.map(filter => filter.name); // TODO: this is unused
+    //const allFilters = filters.map(filter => filter.name); // TODO: this is unused
     return <>
       <p>{filterType}</p>
       <ul style={{ listStyle: "none" }}>
