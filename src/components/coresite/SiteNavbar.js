@@ -19,7 +19,7 @@ const SiteNavbar = () => {
           <Nav.Link href="/products">Products</Nav.Link>
           <Nav.Link href="/about">About</Nav.Link>
           <Nav.Link href="/catalog">Catalog</Nav.Link>
-          <Nav.Link href="/new-items">New Items</Nav.Link>
+          <Nav.Link href="/contact">Contact</Nav.Link>
         </Nav>
       </Container>
     </Navbar>

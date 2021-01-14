@@ -48,14 +48,26 @@ query {
   }
 }
 `;
-const NEWS_QUERY = gql`
+const NEWITEMS_QUERY = gql`
 query {
-  allRecentNews {
+  allNewItems {
     id
     title
-    postDate
-    articleBody {
-      text
+    image {
+      url
+    }
+  }
+}
+`;
+const NEWITEMINFO_QUERY = gql`
+query NewItemInfoQuery($itemId: ID!) {
+  newItems(where: {id: $itemId}) {
+    title
+    itemDescription {
+      html
+    }
+    image {
+      url
     }
   }
 }
@@ -88,4 +100,4 @@ query ProductInfoQuery($itemId: ID!){
 
 `;
 
-export { PRODUCTS_QUERY, FILTER_QUERY, NEWS_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY, FOCUS_PRODUCT_INFO_QUERY };
+export { PRODUCTS_QUERY, FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY, FOCUS_PRODUCT_INFO_QUERY, NEWITEMS_QUERY, NEWITEMINFO_QUERY };
