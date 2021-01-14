@@ -47,7 +47,7 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
     return (
       <div>
         <Button variant="secondary">Filters</Button>{" "}
-        <Button variant="secondary" onClick={showModal}>PDF Items ({builderItems.length})</Button>{" "}
+        <Button variant="secondary" onClick={showModal}>Saved Items ({builderItems.length})</Button>{" "}
         <Search onSearch={changeSearch} />{" "}
         <div className="separator"></div>
         <div className="products-list">
@@ -168,7 +168,7 @@ const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {
                 <b>HI:</b> {info.hi}<br />
                 <b>TI:</b> {info.ti}<br />
               </p>
-              <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button>
+              <Button variant="primary" onClick={() => addToBuilder(item)}>Save Item</Button>
             </Col>
           </Row>
         </div>
