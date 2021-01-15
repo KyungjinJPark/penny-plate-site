@@ -24,18 +24,17 @@ const Filters = ({ onSend, filterType, query }) => {
     if (!(filterLoading || filterError)) {
       const filters = filterData.__type.enumValues;
       setAllFilters(filters.map(filter => filter.name));
-      onSend(allFilters);
       setCurrFilters([]);
     }
   }, [filterLoading, filterError, filterData]);
   useEffect(() => {
-    if (currFilters.length == 0) {
+    if (currFilters.length === 0) {
       onSend(allFilters);
     }
     else {
       onSend(currFilters);
     }
-  }, [currFilters])
+  }, [currFilters, allFilters, onSend])
 
   if (filterLoading) {
     return <>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Container } from "react-bootstrap";
 
 import "./productspage.css";
@@ -13,21 +13,41 @@ const ProductsPage = () => {
   const [currentShape, setShape] = useState([]);
   const [currentStock, setStock] = useState([]);
   const [currentSearch, setSearch] = useState("");
-  const changeFilters = (newFilters) => {
+
+  const changeFilters = useCallback(
+  (newFilters) => {
     setFilter(newFilters);
-  }
-  const changePType = (newTypes) => {
+  },
+  []
+  );
+
+  const changePType = useCallback(
+  (newTypes) => {
     setPType(newTypes);
-  }
-  const changeShape = (newShapes) => {
+  },
+  []
+  );
+
+  const changeShape = useCallback(
+  (newShapes) => {
     setShape(newShapes);
-  }
-  const changeStock = (newStocks) => {
+  },
+  []
+  );
+
+  const changeStock = useCallback(
+  (newStocks) => {
     setStock(newStocks);
-  }
-  const changeSearch = (newSearch) => {
+  },
+  []
+  );
+
+  const changeSearch = useCallback(
+  (newSearch) => {
     setSearch(newSearch);
-  }
+  },
+  []
+  );
 
 
   const [showFilters, setShowFilters] = useState(false);
