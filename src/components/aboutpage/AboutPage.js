@@ -20,41 +20,47 @@ const AboutPage = () => {
   ];
 
   return <Container className="normal-container">
-    <h1>History</h1>
-    <div className="separator"></div>
-    <p>Founded in 1948, Penny Plate, LLC. has been committed to innovation, identifying opportunities to exceed customer expectations, and entering the market as the low cost provider. Today,  Penny Plate has one of the most extensive lines of aluminum containers, selling to Foodservice, Retail, and Packer Processor industries. Inventors of the widely used rolled rim technology, Penny Plate produces its own dyes and continues to be one of the leading innovators in aluminum container packaging.  We pride ourselves in the sustainability of our products, and our aluminum containers are 100% recyclable.</p>
+    <div className="content-section">
+      <h1>History</h1>
+      <div className="separator"></div>
+      <p>Founded in 1948, Penny Plate, LLC. has been committed to innovation, identifying opportunities to exceed customer expectations, and entering the market as the low cost provider. Today,  Penny Plate has one of the most extensive lines of aluminum containers, selling to Foodservice, Retail, and Packer Processor industries. Inventors of the widely used rolled rim technology, Penny Plate produces its own dyes and continues to be one of the leading innovators in aluminum container packaging.  We pride ourselves in the sustainability of our products, and our aluminum containers are 100% recyclable.</p>
+    </div>
 
-    <div id="timeline-wrapper">
+    <div className="content-section">
       <Timeline />
     </div>
 
-    <h1>Markets</h1>
-    <div className="separator"></div>
-    <p>Penny Plate, LLC supplies three major markets: Food Processors, Food Service Distribution, and Retail. All three markets use our products in distinct ways:</p>
-    <div className="markets-inside-wrapper">
-      {marketsData.map((data, index) => <Row className="markets-li">
-        <Col xs={1}>
-          <div className="markets-red-circle">
-            <p>{index + 1}</p>
-          </div>
-        </Col>
-        <Col>
-          <h4>{data.header}</h4>
-          <p>{data.text}</p>
-        </Col>
-      </Row>)}
+    <div className="content-section">
+      <h1>Markets</h1>
+      <div className="separator"></div>
+      <p>Penny Plate, LLC supplies three major markets: Food Processors, Food Service Distribution, and Retail. All three markets use our products in distinct ways:</p>
+      <div className="markets-inside-wrapper">
+        {marketsData.map((data, index) => <Row className="markets-li">
+          <Col xs={1}>
+            <div className="markets-red-circle">
+              <p>{index + 1}</p>
+            </div>
+          </Col>
+          <Col>
+            <h4>{data.header}</h4>
+            <p>{data.text}</p>
+          </Col>
+        </Row>)}
+      </div>
     </div>
 
-    <h1>Aluminum {"&"} Food Service Resources</h1>
-    <div className="separator"></div>
-    <div className="resource-links">
-      <a href="https://www.aluminum.org/">The Aluminum Association</a><br />
-      <a href="http://www.afcma.org/">Aluminum Foil Container Manufacturers Association (AFCMA)</a><br />
-      <a href="https://www.flexpackmag.com/events">Flexible Packaging and Equipment Show Dates</a><br />
-      <a href="https://www.iddba.org/">International Dairy Deli Bakery Association</a><br />
-      <a href="https://www.restaurant.org/home">National Restaurant Association</a><br />
-      <a href="https://www.packagingdigest.com/">Packaging Digest</a><br />
-      <a href="https://www.fpi.org/">Foodservice Packaging Institute</a><br />
+    <div className="content-section">
+      <h1>Aluminum {"&"} Food Service Resources</h1>
+      <div className="separator"></div>
+      <div className="resource-links">
+        <a href="https://www.aluminum.org/">The Aluminum Association</a><br />
+        <a href="http://www.afcma.org/">Aluminum Foil Container Manufacturers Association (AFCMA)</a><br />
+        <a href="https://www.flexpackmag.com/events">Flexible Packaging and Equipment Show Dates</a><br />
+        <a href="https://www.iddba.org/">International Dairy Deli Bakery Association</a><br />
+        <a href="https://www.restaurant.org/home">National Restaurant Association</a><br />
+        <a href="https://www.packagingdigest.com/">Packaging Digest</a><br />
+        <a href="https://www.fpi.org/">Foodservice Packaging Institute</a><br />
+      </div>
     </div>
   </Container >
 }
