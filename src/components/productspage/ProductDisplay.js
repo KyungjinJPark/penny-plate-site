@@ -5,7 +5,7 @@ import { Button, Card, Row, Col } from "react-bootstrap";
 import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
 
-const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
+const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
   const [builderItems, setBuilderItems] = useState([]);
   const addToBuilder = (item) => {
     // TODO: add a check to not add duplicates
@@ -46,7 +46,7 @@ const ProductsList = ({ currentFilter, currentPType, currentShape, currentStock,
     // TODO: The buttons do nothing! 
     return (
       <div>
-        <Button variant="secondary">Filters</Button>{" "}
+        <Button variant="secondary" onClick={toggleFilters}>Filters</Button>{" "}
         <Button variant="secondary" onClick={showModal}>Saved Items ({builderItems.length})</Button>{" "}
         <Search onSearch={changeSearch} />{" "}
         <div className="separator"></div>
