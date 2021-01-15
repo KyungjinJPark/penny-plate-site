@@ -12,7 +12,7 @@ const ProductsPage = () => {
   const [currentPType, setPType] = useState([]);
   const [currentShape, setShape] = useState([]);
   const [currentStock, setStock] = useState([]);
-  const [currentSearch, setSearch] = useState([""]);
+  const [currentSearch, setSearch] = useState("");
   const changeFilters = (newFilters) => {
     setFilter(newFilters);
   }
