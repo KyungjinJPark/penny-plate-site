@@ -29,19 +29,28 @@ const ProductsPage = () => {
     setSearch(newSearch);
   }
 
+
+  const [showFilters, setShowFilters] = useState(false);
+  const toggleFilters = () => {
+    setShowFilters(old => !old);
+  };
+
   console.log(currentFilter);
-  return (<div>
-    <div className="products-sidebar">
-      <h1>Filters</h1>
-      <div className="separator"></div>
-      <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
-      <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
-      <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
-      <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
+  return (<div className="products-page-wrapper">
+    <div className={showFilters ? "display-block" : "display-none"}>
+      <div className="products-sidebar">
+        <h1>Filters</h1>
+        <div className="separator"></div>
+        <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
+        <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
+        <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
+        <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
+      </div>
     </div>
     <Container className="normal-container">
       <h1>Products</h1>
       <ProductsList
+        toggleFilters={toggleFilters}
         currentFilter={currentFilter}
         currentPType={currentPType}
         currentShape={currentShape}
