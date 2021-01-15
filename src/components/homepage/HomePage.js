@@ -12,15 +12,15 @@ const HomePage = () => {
   const carouselImgData = [
     {
       src: carouselImg1,
-      alt: "Image of a turkey in a Pan",
+      alt: "Turkey in a Pan",
     },
     {
       src: carouselImg2,
-      alt: "Image of lasagna in a Pan",
+      alt: "Lasagna in a Pan",
     },
     {
       src: carouselImg3,
-      alt: "Image of kabobs in a Pan",
+      alt: "Kabobs in a Pan",
     },
   ];
 

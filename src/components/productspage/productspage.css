@@ -88,6 +88,10 @@
   font-size: 22px;
 }
 
+.modal-90w {
+  width: 90%;
+}
+
 .product-popup-image {
   width: 100%;
   height: auto;
