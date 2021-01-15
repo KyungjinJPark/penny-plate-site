@@ -27,3 +27,10 @@
 .button-pos-2 {
   margin-top: -300px;
 }
+
+.homepage-new-items-link {
+  color: #000;
+}
+.homepage-new-items-link:hover {
+  text-decoration: none;
+}
