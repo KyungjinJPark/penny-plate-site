@@ -6,7 +6,9 @@ import {
 import HomePage from "../homepage/HomePage";
 import ProductsPage from "../productspage/ProductsPage";
 import AboutPage from "../aboutpage/AboutPage";
+import CatalogPage from "../catalogpage/CatalogPage"
 import NewItemsPage from "../newitemspage/NewItemsPage";
+import ContactPage from "../contactpage/ContactPage";
 
 const SiteContent = () => <Switch>
   <Route exact path="/">
@@ -19,13 +21,13 @@ const SiteContent = () => <Switch>
     <AboutPage />
   </Route>
   <Route path="/catalog">
-    <p>This is the CATALOG page</p>
+    <CatalogPage />
   </Route>
   <Route path="/new-items">
     <NewItemsPage />
   </Route>
   <Route path="/contact">
-    <p>This is the CONTACT page</p>
+    <ContactPage />
   </Route>
 </Switch>
 
