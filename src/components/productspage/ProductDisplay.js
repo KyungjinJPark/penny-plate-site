@@ -34,7 +34,7 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
       const id = product.itemNo.toLowerCase();
       var keywords = (currentSearch.replace(/\n/gi, " ").trim().split(/[ ]+/));
       // TODO: this is throwing a warning
-      return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
+      return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) === -1 && id.localeCompare(keyword.toLowerCase()) !== 0) }));
     }));
     // TODO: The buttons do nothing! 
     return (
