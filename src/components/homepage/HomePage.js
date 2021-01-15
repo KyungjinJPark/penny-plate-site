@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Carousel, Button } from "react-bootstrap";
 
 import "./homepage.css";
@@ -5,6 +6,7 @@ import carouselImg1 from "../../imgs/turkey.jfif";
 import carouselImg2 from "../../imgs/lasagna.jfif";
 import carouselImg3 from "../../imgs/kabob.jfif";
 import sectionImg from "../../imgs/PennyPlateCookingSpree.jpg";
+import { NewItemList } from "../newitemspage/NewItemsPage"
 
 const HomePage = () => {
   const carouselImgData = [
@@ -44,7 +46,7 @@ const HomePage = () => {
       Browse Our Catalog
       </Button>
     <Container className="normal-container">
-      <Row>
+      <Row className="content-section">
         <Col xs={12} md={5}>
           <h1>Over Half a Century of Innovation</h1>
           <div className="separator"></div>
@@ -66,6 +68,11 @@ const HomePage = () => {
             </Button>
         </Col>
       </Row>
+      <div className="content-section">
+        <Link to="/new-items" className="homepage-new-items-link"><h1>New Items</h1></Link>
+        <div className="separator"></div>
+        <NewItemList />
+      </div>
     </Container>
   </>
 }

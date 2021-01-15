@@ -41,10 +41,12 @@ const ProductsPage = () => {
       <div className="products-sidebar">
         <h1>Filters</h1>
         <div className="separator"></div>
-        <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
-        <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
-        <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
-        <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
+        <div className="filter-wrapper">
+          <Filters onSend={changeFilters} filterType={"Applications"} query={FILTER_QUERY} />
+          <Filters onSend={changePType} filterType={"Product Types"} query={PTYPE_QUERY} />
+          <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
+          <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
+        </div>
       </div>
     </div>
     <Container className="normal-container">
