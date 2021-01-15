@@ -1,22 +1,28 @@
 import { jsPDF } from "jspdf";
-import { Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 import logoImg from "../../imgs/pennyplate-logo.png"
 
-const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
+const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
   return (
-    <div className={show ? "popup-wrapper display-block" : "popup-wrapper display-none"}>
-      <section className="main-popup" style={{ height: "95%" }}>
-        <Button variant="primary" onClick={handleClose} style={{ float: "right" }}>Close</Button>
-        <div className="popup-content saved-popup-content">
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="xl"
+      dialogClassName="no-border-modal"
+      centered
+    >
+      <Modal.Header closeButton />
+      <Modal.Body>
+        <div className="popup-content">
           <div>
             <h1>Saved Items</h1>
             <div className="separator"></div>
           </div>
-          <div style={{ overflow: "auto", width: "100%" }}>
-            <table style={{ width: "100%", background: "#EEEEEE" }}>
+          <div style={{ width: "100%" }}>
+            <table>
               <tbody>
-                {builderItems.map(item =>
+                {savedItems.map(item =>
                   <tr key={item.id} className="saved-item-row">
                     <td className="saved-item-img-cell">
                       <img
@@ -28,18 +34,24 @@ const PdfBuilderOverlay = ({ show, builderItems, handleClose }) => {
                       <p>{item.itemNo}</p>
                       <h1>{item.description}</h1>
                     </td>
+                    <td>
+                      <Button variant="primary" onClick={() => { removeSavedItem(item.id) }}>Remove</Button>
+                    </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
           <div style={{ marginTop: "10px" }}>
-            <p style={{ marginBottom: "3px" }}><b>Total items:</b> {builderItems.length}</p>
-            <Button variant="success" onClick={() => pdfFromItems(builderItems)}>Create PDF from Saved Items</Button>
+            <p style={{ marginBottom: "3px" }}><b>Total items:</b> {savedItems.length}</p>
           </div>
         </div>
-      </section>
-    </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="success" onClick={() => pdfFromItems(savedItems)}>Create PDF from Saved Items</Button>
+        <Button variant="primary" onClick={onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
@@ -47,7 +59,7 @@ export default PdfBuilderOverlay;
 
 
 // TODO: output proper PDF
-const pdfFromItems = (builderItems) => {
+const pdfFromItems = (savedItems) => {
   const doc = new jsPDF("portrait", "in", "letter");
 
 
@@ -61,8 +73,8 @@ const pdfFromItems = (builderItems) => {
 
   doc.line(0.5, 2, 8, 2, "F");
 
-  for (let i = 0; i < builderItems.length; i++) {
-    doc.text(builderItems[i].itemNo, 0.65, i * 1 + 4);
+  for (let i = 0; i < savedItems.length; i++) {
+    doc.text(savedItems[i].itemNo, 0.65, i * 1 + 4);
   }
 
   doc.line(0.5, 9.5, 8, 9.5, "F");
