@@ -32,8 +32,9 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     const items = productData.allProducts.filter((product => {
       const lowerProduct = product.description.toLowerCase();
       const id = product.itemNo.toLowerCase();
+      var keywords = (currentSearch.replace(/\n/gi, " ").trim().split(/[ ]+/));
       // TODO: this is throwing a warning
-      return !(currentSearch.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
+      return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) == -1 && id.localeCompare(keyword.toLowerCase()) != 0) }));
     }));
     // TODO: The buttons do nothing! 
     return (
@@ -61,10 +62,8 @@ const Search = ({ onSearch, defaultText }) => {
   const [currText, setText] = useState(defaultText);
 
   const doSearch = () => {
-    var keywords = (currText.replace(/\n/gi, " ").trim().split(/[ ]+/));
-    onSearch(keywords);
+    onSearch(currText);
   }
-  console.log(currText);
   return <InputGroup>
     <FormControl
       placeholder="Search by item ID or description"
