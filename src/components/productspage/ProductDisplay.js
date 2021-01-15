@@ -202,9 +202,16 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                   <b>TI:</b> {info.ti}<br />
                 </p>
               </Col>
-              <Col xs={12}>
-                <div>{info.notices}</div>
-              </Col>
+              {info.notices && <>
+                <Col xs={12}>
+                  <h1>Extra Information</h1>
+                </Col>
+                <Col xs={12}>
+                  <div>
+                    <p dangerouslySetInnerHTML={{ __html: info.notices.html }}></p>
+                  </div>
+                </Col>
+              </>}
             </Row>
           </div>
         </Modal.Body>

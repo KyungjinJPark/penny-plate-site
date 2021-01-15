@@ -37,7 +37,7 @@ const ProductsPage = () => {
 
   console.log(currentFilter);
   return (<div className="products-page-wrapper">
-    <div className={showFilters ? "display-block" : "display-none"}>
+    <div style={{ display: showFilters ? "block" : "none" }}>
       <div className="products-sidebar">
         <h1>Filters</h1>
         <div className="separator"></div>
