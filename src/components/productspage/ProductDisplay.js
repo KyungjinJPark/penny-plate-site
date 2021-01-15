@@ -200,6 +200,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
 
                   <b>HI:</b> {info.hi}<br />
                   <b>TI:</b> {info.ti}<br />
+                  <Button variant="primary" onClick={() => addToSavedItems(item)}>Save Item</Button>
                 </p>
               </Col>
               {info.notices && <>
