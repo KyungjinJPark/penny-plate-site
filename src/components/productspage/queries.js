@@ -95,6 +95,7 @@ query ProductInfoQuery($itemId: ID!){
     ti
     topIn
     topOut
+    notices
   }
 }
 
