@@ -39,7 +39,7 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     return (
       <div>
         <div className="options-bar">
-          <Search onSearch={changeSearch} style={{ display: "inline" }} />
+          <Search onSearch={changeSearch} defaultText={currentSearch} style={{ display: "inline" }} />
           <Button variant="secondary" style={{ width: "100px" }} className="spaced-button" onClick={toggleFilters}>Filters</Button>
           <Button variant="secondary" style={{ width: "200px" }} className="spaced-button" onClick={showModal}>Saved Items ({builderItems.length})</Button>
         </div>
@@ -57,18 +57,19 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
 export default ProductsList;
 
 
-const Search = ({ onSearch }) => {
-  const [currText, setText] = useState("");
+const Search = ({ onSearch, defaultText }) => {
+  const [currText, setText] = useState(defaultText);
 
   const doSearch = () => {
     var keywords = (currText.replace(/\n/gi, " ").trim().split(/[ ]+/));
     onSearch(keywords);
   }
-
+  console.log(currText);
   return <InputGroup>
     <FormControl
       placeholder="Search by item ID or description"
       aria-label="Recipient's username"
+      value={currText}
       onChange={(event) => (setText(event.target.value))}
     />
     <InputGroup.Append>
