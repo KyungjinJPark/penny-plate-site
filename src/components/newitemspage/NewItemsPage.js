@@ -6,55 +6,54 @@ import {
   useParams
 } from "react-router-dom";
 import { useQuery } from 'react-apollo';
-import { Card, Container } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 
+import "./newitemspage.css";
 import { NEWITEMS_QUERY, NEWITEMINFO_QUERY } from '../productspage/queries';
 
 const NewItemsPage = () => {
   let match = useRouteMatch();
-  return (<div>
+  return (<Container className="normal-container">
     <Switch>
       <Route path={`${match.path}/:articleId`}>
-        <ArticlePage />
+        <NewItemPage />
       </Route>
       <Route path={match.path}>
-        <ArticleList match={match} />
+        <h1>New Items</h1>
+        <div className="separator"></div>
+        <NewItemList />
       </Route>
     </Switch>
-  </div>)
+  </Container>)
 };
 
-export default NewItemsPage;
-
-const ArticleList = ({ match }) => {
+const NewItemList = () => {
   const { loading, error, data } = useQuery(NEWITEMS_QUERY);
   if (loading) return <div>Fetching new products...</div>;
   if (error) return <div>Error fetching new products</div>;
   const articles = data.allNewItems;
   console.log(articles)
-  return (<Container className="normal-container">
-    <h1>New Items</h1>
-    <div className="separator"></div>
-    <ul>
-      {articles.map(article => <li>
-        <Link to={`${match.url}/${article.id}`}>
-          <ArticleListItem key={article.id} article={article} />
-        </Link>
-      </li>)}
-    </ul>
-  </Container>)
+  return (<Row>
+    {articles.map(article => <Col xs={12} sm={6} md={4}>
+      <Link to={`new-items/${article.id}`}>
+        <NewItemListItem key={article.id} article={article} />
+      </Link>
+    </Col>)}
+  </Row>)
 };
 
-const ArticleListItem = ({ article }) =>
-  <Card style={{ width: "18rem" }}>
-    <Card.Img variant="top" src={article.image.url} />
-    <Card.Body>
-      <Card.Title>{article.title}</Card.Title>
-      {/* <Card.Text>{(article.itemDescription.text).replaceAll("\\n", " ")}</Card.Text> */}
-    </Card.Body>
-  </Card>;
+export { NewItemsPage as default, NewItemList };
 
-const ArticlePage = () => {
+
+const NewItemListItem = ({ article }) =>
+  <div style={{ textAlign: "center" }}>
+    <Card.Img src={article.images[0].url} />
+    <div className="new-item-text">
+      <h4>{article.title}</h4>
+    </div>
+  </div>;
+
+const NewItemPage = () => {
   let { articleId } = useParams();
   const { loading: infoLoading, error: infoError, data: infoData } = useQuery(NEWITEMINFO_QUERY, {
     variables: { itemId: articleId },
@@ -67,17 +66,21 @@ const ArticlePage = () => {
   }
   else {
     const info = infoData.newItems;
-    console.log("recieved!");
-    console.log(info);
-    // TODO: The buttons do nothing! 
-    return (
-      <Card style={{ width: "18rem" }}>
-        <Card.Img variant="top" src={info.image.url} />
-        <Card.Body>
-          <Card.Title>{info.title}</Card.Title>
-          <Card.Text dangerouslySetInnerHTML={{ __html: info.itemDescription.html }} ></Card.Text>
-        </Card.Body>
-      </Card>
-    )
+    return (<>
+      <div className="content-section">
+        <h1>{info.title}</h1>
+        <div className="separator"></div>
+        <p dangerouslySetInnerHTML={{ __html: info.itemDescription.html }}></p>
+      </div>
+      <div className="content-section">
+        {info.images.map((imgInfo) => {
+          return <img
+            src={imgInfo.url}
+            width="100%"
+            style={{ marginBottom: "3rem" }}
+          />
+        })}
+      </div>
+    </>)
   }
 }

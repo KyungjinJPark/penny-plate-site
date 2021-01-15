@@ -53,7 +53,7 @@ query {
   allNewItems {
     id
     title
-    image {
+    images {
       url
     }
   }
@@ -66,7 +66,7 @@ query NewItemInfoQuery($itemId: ID!) {
     itemDescription {
       html
     }
-    image {
+    images {
       url
     }
   }

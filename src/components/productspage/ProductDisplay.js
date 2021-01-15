@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-apollo";
-import { Button, Card, Row, Col } from "react-bootstrap";
+import { Button, Card, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
 import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
@@ -46,13 +46,15 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     // TODO: The buttons do nothing! 
     return (
       <div>
-        <Button variant="secondary" onClick={toggleFilters}>Filters</Button>{" "}
-        <Button variant="secondary" onClick={showModal}>Saved Items ({builderItems.length})</Button>{" "}
-        <Search onSearch={changeSearch} />{" "}
-        <div className="separator"></div>
-        <div className="products-list">
-          {items.map(item => <Product key={item.id} item={item} addToBuilder={addToBuilder} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
+        <div className="options-bar">
+          <Search onSearch={changeSearch} style={{ display: "inline" }} />
+          <Button variant="secondary" style={{ width: "100px" }} className="spaced-button" onClick={toggleFilters}>Filters</Button>
+          <Button variant="secondary" style={{ width: "200px" }} className="spaced-button" onClick={showModal}>Saved Items ({builderItems.length})</Button>
         </div>
+        <div className="separator"></div>
+        <Row>
+          {items.map(item => <Product key={item.id} item={item} addToBuilder={addToBuilder} setFocusItem={setFocusItem} showPopUpModal={showPopUpModal} />)}
+        </Row>
         <PdfBuilderOverlay show={showBuilder} builderItems={builderItems} handleClose={hideModal} />
         <ProductPopUp show={showProductPopUP} item={focusItem} addToBuilder={addToBuilder} handleClose={hidePopUpModal} />
       </div>
@@ -71,15 +73,21 @@ const Search = ({ onSearch }) => {
     onSearch(keywords);
   }
 
-  return <>
-    <input type="text" onChange={(event) => (setText(event.target.value))}></input>{" "}
-    <Button variant="secondary" onClick={doSearch}>Search</Button>
-  </>
+  return <InputGroup>
+    <FormControl
+      placeholder="Search by item ID or description"
+      aria-label="Recipient's username"
+      onChange={(event) => (setText(event.target.value))}
+    />
+    <InputGroup.Append>
+      <Button variant="secondary" onClick={doSearch}>Search</Button>
+    </InputGroup.Append>
+  </InputGroup>
 }
 
 // TODO: what to do w/ addToBuilder?; display ItemNo? 
 const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
-  <div className="single-product-wrapper" onClick={() => {
+  <Col xs={12} sm={6} md={4} className="single-product-wrapper" onClick={() => {
     setFocusItem(item);
     showPopUpModal();
   }}>
@@ -95,7 +103,7 @@ const Product = ({ item, addToBuilder, setFocusItem, showPopUpModal }) =>
       <h4 className="single-product-description">{item.description}</h4>
       {/* <Button variant="primary" onClick={() => addToBuilder(item)}>Add to PDF Builder</Button> */}
     </div>
-  </div>;
+  </Col>;
 
 // TODO: Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToBuilder, handleClose }) => {

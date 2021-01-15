@@ -39,13 +39,13 @@ const Filters = ({ onSend, filterType, query }) => {
 
   if (filterLoading) {
     return <>
-      <p>{filterType}</p>
+      <h4>{filterType}</h4>
       <p>Fetching filters.....</p>
     </>
   }
   else if (filterError) {
     return <>
-      <p>{filterType}</p>
+      <h4>{filterType}</h4>
       <p>Error fetching filters</p>
     </>
   }
@@ -53,11 +53,11 @@ const Filters = ({ onSend, filterType, query }) => {
     const filters = filterData.__type.enumValues;
     //const allFilters = filters.map(filter => filter.name); // TODO: this is unused
     return <>
-      <p>{filterType}</p>
-      <ul style={{ listStyle: "none" }}>
+      <h4>{filterType}</h4>
+      <ul>
         {filters.map(filter => <li key={filter.name}>
           <input type="checkbox" onChange={(event) => { changeFilters(event.target.checked, filter.name) }} />
-          {" " + filter.name}
+          <p>{spaceFilters(filter.name)}</p>
         </li>)}
       </ul>
     </>
@@ -65,3 +65,8 @@ const Filters = ({ onSend, filterType, query }) => {
 }
 
 export default Filters;
+
+
+const spaceFilters = (name) => {
+  return name.replace(/([A-Z])/g, " $1");
+}
