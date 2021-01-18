@@ -73,13 +73,17 @@ const NewItemPage = () => {
         <p dangerouslySetInnerHTML={{ __html: info.itemDescription.html }}></p>
       </div>
       <div className="content-section">
-        {info.images.map((imgInfo) => {
-          return <img
-            src={imgInfo.url}
-            width="100%"
-            style={{ marginBottom: "3rem" }}
-          />
-        })}
+        <Row>
+          {info.images.map((imgInfo) => {
+            return <Col xs={6}>
+              <img
+                src={imgInfo.url}
+                width="100%"
+                style={{ marginBottom: "3rem" }}
+              />
+            </Col>
+          })}
+        </Row>
       </div>
     </>)
   }

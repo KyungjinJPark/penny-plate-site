@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "react-apollo";
 import { Button, Card, Row, Col, InputGroup, FormControl, Modal } from "react-bootstrap";
@@ -29,7 +30,14 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
   const setProductModalVisible = () => { setShowProductModal(true); };
   const hidePopUpModal = () => { setShowProductModal(false); };
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
-    variables: { application: currentFilter, productType: currentPType, shape: currentShape, stock: currentStock },
+    variables: {
+      grabCount: 5,
+      skipCount: 0,
+      application: currentFilter,
+      productType: currentPType,
+      shape: currentShape,
+      stock: currentStock
+    },
   });
   if (productLoading) {
     console.log("reload");
@@ -39,6 +47,7 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     return <div>Error fetching products</div>
   }
   else {
+    console.log(productData.allProducts);
     const items = productData.allProducts.filter((product => {
       const lowerProduct = product.description.toLowerCase();
       const id = product.itemNo.toLowerCase();
@@ -107,7 +116,6 @@ const Product = ({ item, addToSavedItems, setFocusItem, setProductModalVisible }
 
 // TODO: Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
-  console.log(item.id)
   const { loading: infoLoading, error: infoError, data: infoData } = useQuery(FOCUS_PRODUCT_INFO_QUERY, {
     variables: { itemId: item.id },
   });
@@ -123,7 +131,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
       >
         <Modal.Header closeButton />
         <Modal.Body>
-          <p>Fetching products.....</p>
+          <h4>Fetching products.....</h4>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide}>Close</Button>
@@ -144,7 +152,8 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
       >
         <Modal.Header closeButton />
         <Modal.Body>
-          <p>Error fetching products</p>
+          <h4>Could not fetch products.</h4>
+          <Link to="/catalog"><h4>Please use the digital catalog</h4></Link>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide}>Close</Button>
@@ -179,28 +188,31 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
               </Col>
               <Col lg={12} xl={6}>
                 <p>
-                  <b>Product Type:</b> {info.productType}<br />
-                  <b>Shape:</b> {info.shape}<br />
                   <b>Application(s):</b> {spaceWords("" + info.application)}<br />
+                  <b>Product Type:</b> {spaceWords(info.productType)}<br />
+                  <b>Shape:</b> {info.shape}<br />
+                  <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
+                  <b>Rim:</b> {info.rimStyle}<br />
                   <b>Top In:</b> {info.topIn}<br />
                   <b>Top Out:</b> {info.topOut}<br />
                   <b>Bottom:</b> {info.bottom}<br />
-                  <b>Vertical Depth:</b> {info.depth}<br />
-                  <b>Capacity (Fl. Oz.):</b> {info.panCapacity}<br />
-                  <b>Rim:</b> {info.rimStyle}<br />
+                  <b>Depth:</b> {info.depth}<br />
+                  <b>Capacity (Fl. Oz.):</b> {(info.panCapacity) ? info.panCapacity : "N/A"}<br />
 
-                  <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
-                  <b>Case Weight (Lbs):</b> {info.caseWeight}<br />
                   <b>Pans per Case:</b> {info.pansPerCase}<br />
-
-                  <b>Pallet Weight:</b> {info.palletWeight}<br />
-
-                  <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
-                  <b>Order Quantity:</b> {info.orderQuantity}<br />
-
-                  <b>HI:</b> {info.hi}<br />
                   <b>TI:</b> {info.ti}<br />
-                  <Button variant="primary" onClick={() => addToSavedItems(item)}>Save Item</Button>
+                  <b>HI:</b> {info.hi}<br />
+                  <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
+                  <b>Case Weight (lbs.):</b> {info.caseWeight}<br />
+                  <b>Order Quantity:</b> {info.orderQuantity}<br />
+                  <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
+                  <Button
+                    variant="success"
+                    onClick={() => addToSavedItems(item)}
+                    style={{ marginTop: "10px" }}
+                  >
+                    Save Item
+                    </Button>
                 </p>
               </Col>
               {info.notices && <>
@@ -217,7 +229,8 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={() => addToSavedItems(item)}>Save Item</Button>
+          <Button variant="success" onClick={() => addToSavedItems(item)}>Save Item</Button>
+          <Button variant="primary" onClick={onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     )
