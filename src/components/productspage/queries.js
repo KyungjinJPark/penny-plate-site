@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const PRODUCTS_QUERY = gql`
-query ProductQuery($application: [Application!], $productType: [ProductType!], $shape: [Shape!], $stock: [StockType!]){
-  allProducts(where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock}) 
+query ProductQuery($grabCount: Int!, $skipCount: Int!, $application: [Application!], $productType: [ProductType!], $shape: [Shape!], $stock: [StockType!]){
+  allProducts(first: $grabCount, skip: $skipCount, where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock}) 
   {
     id
     itemNo
@@ -48,13 +48,19 @@ query {
   }
 }
 `;
+
 const NEWITEMS_QUERY = gql`
 query {
   allNewItems {
     id
     title
-    images {
-      url
+    images(first: 1) {
+      url(
+        transformation: {
+          image: { resize: { width: 400, height: 400, fit: clip } },
+          document: { output: { format: jpg } } 
+        }
+      )
     }
   }
 }
@@ -67,12 +73,17 @@ query NewItemInfoQuery($itemId: ID!) {
       html
     }
     images {
-      url
+      url(
+        transformation: {
+          image: { resize: { width: 700, height: 700, fit: clip } },
+          document: { output: { format: jpg } } 
+        }
+      )
     }
   }
 }
 `;
-//$itemId: String!
+
 const FOCUS_PRODUCT_INFO_QUERY = gql`
 query ProductInfoQuery($itemId: ID!){
   products(where: {id: $itemId}) 
