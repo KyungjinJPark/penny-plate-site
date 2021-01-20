@@ -234,7 +234,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                   <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
                   <Button
                     variant="success"
-                    onClick={() => addToSavedItems(item)}
+                    onClick={() => addToSavedItems(info)}
                     style={{ marginTop: "10px" }}
                   >
                     Save Item
