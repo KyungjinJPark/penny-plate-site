@@ -36,7 +36,9 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
       application: currentFilter,
       productType: currentPType,
       shape: currentShape,
-      stock: currentStock
+      stock: currentStock,
+      keywords: (currentSearch.replace(/\n/gi, " ").trim()),
+      itemNo: (currentSearch.replace(/\n/gi, " ").trim())
     },
   });
   if (productLoading) {
@@ -47,14 +49,16 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     return <div>Error fetching products</div>
   }
   else {
+    console.log((currentSearch));
     console.log(productData.allProducts);
-    const items = productData.allProducts.filter((product => {
-      const lowerProduct = product.description.toLowerCase();
-      const id = product.itemNo.toLowerCase();
-      var keywords = (currentSearch.replace(/\n/gi, " ").trim().split(/[ ]+/));
+    const items = productData.allProducts;
+    //const items = productData.allProducts.filter((product => {
+      //const lowerProduct = product.description.toLowerCase();
+      //const id = product.itemNo.toLowerCase();
+      //var keywords = (currentSearch.replace(/\n/gi, " ").trim().split(/[ ]+/));
       // TODO: this is throwing a warning
-      return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) === -1 && id.localeCompare(keyword.toLowerCase()) !== 0) }));
-    }));
+      //return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) === -1 && id.localeCompare(keyword.toLowerCase()) !== 0) }));
+    //}));
     // TODO: The buttons do nothing! 
     return (
       <div>
