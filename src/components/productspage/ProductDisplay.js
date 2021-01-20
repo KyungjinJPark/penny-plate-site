@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "react-apollo";
-import { Button, Card, Row, Col, InputGroup, FormControl, Modal } from "react-bootstrap";
+import { Button, Card, Row, Col, InputGroup, FormControl, Modal, Carousel } from "react-bootstrap";
 
 import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
@@ -129,9 +129,9 @@ const Product = ({ item, addToSavedItems, setFocusItem, setProductModalVisible }
     setProductModalVisible();
   }}>
     <Card.Img
-      src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
+      src={item.photos[0].url}
       alt="..."
-      style={{ background: "#000" }}
+      style={{ boxShadow: "2px 4px 7px #AAAAAA" }}
     />
     <div className="single-product-text">
       {/* <h4>{item.itemNo}</h4> */}
@@ -206,11 +206,15 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
             <p><em>{item.itemNo}</em></p>
             <Row>
               <Col lg={12} xl={6}>
-                <img
-                  src="http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"
-                  className="product-popup-image"
-                  alt="..."
-                />
+                <Carousel style={{ color: "#000" }}>
+                  {info.photos.map((resource) => <Carousel.Item>
+                    <img
+                      src={resource.url}
+                      className="product-popup-image"
+                      alt="..."
+                    />
+                  </Carousel.Item>)}
+                </Carousel>
               </Col>
               <Col lg={12} xl={6}>
                 <p>
@@ -255,7 +259,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={() => addToSavedItems(item)}>Save Item</Button>
+          <Button variant="success" onClick={() => addToSavedItems(info)}>Save Item</Button>
           <Button variant="primary" onClick={onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
