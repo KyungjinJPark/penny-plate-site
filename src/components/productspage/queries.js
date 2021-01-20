@@ -8,6 +8,14 @@ query ProductQuery($grabCount: Int!, $skipCount: Int!, $application: [Applicatio
     itemNo
     description
     application
+    photos(first: 1) {
+      url(
+        transformation: {
+          image: { resize: { width: 400, fit: clip } },
+          document: { output: { format: jpg } } 
+        }
+      )
+    }
   }
 }
 `;
@@ -88,13 +96,15 @@ const FOCUS_PRODUCT_INFO_QUERY = gql`
 query ProductInfoQuery($itemId: ID!){
   products(where: {id: $itemId}) 
   {
+    id
+    itemNo
+    description
     application
     bottom
     caseCubeFt
     caseWeight
     depth
     hi
-    itemNo
     orderQuantity
     palletWeight
     panCapacity
@@ -108,6 +118,14 @@ query ProductInfoQuery($itemId: ID!){
     topOut
     notices {
       html
+    }
+    photos {
+      url(
+        transformation: {
+          image: { resize: { width: 600, fit: clip } },
+          document: { output: { format: jpg } } 
+        }
+      )
     }
   }
 }
