@@ -6,7 +6,7 @@ import { Button, Card, Row, Col, InputGroup, FormControl, Modal } from "react-bo
 import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
 
-const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
+const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
   const [savedItems, setSavedItems] = useState([]);
   const addToSavedItems = (item) => {
     setSavedItems((oldItems) => {
@@ -29,10 +29,26 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
   const [showProductModal, setShowProductModal] = useState(false);
   const setProductModalVisible = () => { setShowProductModal(true); };
   const hidePopUpModal = () => { setShowProductModal(false); };
+
+  const [pageNum, setPageNum] = useState(0);
+  const decPage = () => {
+    setPageNum((oldpage) => {
+      if (oldpage == 0) {
+        return oldpage;
+      }
+      else {
+        return oldpage - 1;
+      }
+    });
+  }
+  const incPage = () => {
+    setPageNum((oldpage) => oldpage + 1);
+  }
+
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: {
-      grabCount: 5,
-      skipCount: 0,
+      grabCount: 16,
+      skipCount: pageNum * 15,
       application: currentFilter,
       productType: currentPType,
       shape: currentShape,
@@ -52,25 +68,32 @@ const ProductsList = ({ toggleFilters, currentFilter, currentPType, currentShape
     console.log((currentSearch));
     console.log(productData.allProducts);
     const items = productData.allProducts;
-    //const items = productData.allProducts.filter((product => {
-      //const lowerProduct = product.description.toLowerCase();
-      //const id = product.itemNo.toLowerCase();
-      //var keywords = (currentSearch.replace(/\n/gi, " ").trim().split(/[ ]+/));
-      // TODO: this is throwing a warning
-      //return !(keywords.every((keyword) => { return (lowerProduct.indexOf(keyword.toLowerCase()) === -1 && id.localeCompare(keyword.toLowerCase()) !== 0) }));
-    //}));
-    // TODO: The buttons do nothing! 
     return (
       <div>
         <div className="options-bar">
           <Search onSearch={changeSearch} defaultText={currentSearch} style={{ display: "inline" }} />
-          <Button variant="secondary" style={{ width: "100px" }} className="spaced-button" onClick={toggleFilters}>Filters</Button>
+          <Button variant={showFilters ? "primary" : "secondary"} style={{ width: "100px" }} className="spaced-button" onClick={toggleFilters}>Filters</Button>
           <Button variant="secondary" style={{ width: "200px" }} className="spaced-button" onClick={setSavedItemsModalVisible}>Saved Items ({savedItems.length})</Button>
         </div>
         <div className="separator"></div>
         <Row>
-          {items.map(item => <Product key={item.id} item={item} addToSavedItems={addToSavedItems} setFocusItem={setFocusItem} setProductModalVisible={setProductModalVisible} />)}
+          {items.slice(0, 15).map(item => <Product key={item.id} item={item} addToSavedItems={addToSavedItems} setFocusItem={setFocusItem} setProductModalVisible={setProductModalVisible} />)}
         </Row>
+        <div style={{ float: "right", marginTop: "2em" }}>
+          <Button
+            variant={(pageNum > 0) ? "primary" : "secondary"}
+            onClick={(pageNum > 0) ? decPage : () => { }}
+          >
+            Previous
+          </Button>
+          <h4 style={{ display: "inline" }}>{" "}Page {pageNum + 1}{" "}</h4>
+          <Button
+            variant={(items.length == 16) ? "primary" : "secondary"}
+            onClick={(items.length == 16) ? incPage : () => { }}
+          >
+            Next
+          </Button>
+        </div>
         <PdfBuilderOverlay show={showSavedItemsModal} onHide={hideSavedItemsModal} savedItems={savedItems} removeSavedItem={removeSavedItem} />
         <ProductPopUp show={showProductModal} item={focusItem} addToSavedItems={addToSavedItems} onHide={hidePopUpModal} />
       </div>
@@ -89,8 +112,7 @@ const Search = ({ onSearch, defaultText }) => {
   }
   return <InputGroup>
     <FormControl
-      placeholder="Search by item ID or description"
-      aria-label="Recipient's username"
+      placeholder="Search by item ID or a keyword in the description"
       value={currText}
       onChange={(event) => (setText(event.target.value))}
     />

@@ -15,38 +15,38 @@ const ProductsPage = () => {
   const [currentSearch, setSearch] = useState("");
 
   const changeFilters = useCallback(
-  (newFilters) => {
-    setFilter(newFilters);
-  },
-  []
+    (newFilters) => {
+      setFilter(newFilters);
+    },
+    []
   );
 
   const changePType = useCallback(
-  (newTypes) => {
-    setPType(newTypes);
-  },
-  []
+    (newTypes) => {
+      setPType(newTypes);
+    },
+    []
   );
 
   const changeShape = useCallback(
-  (newShapes) => {
-    setShape(newShapes);
-  },
-  []
+    (newShapes) => {
+      setShape(newShapes);
+    },
+    []
   );
 
   const changeStock = useCallback(
-  (newStocks) => {
-    setStock(newStocks);
-  },
-  []
+    (newStocks) => {
+      setStock(newStocks);
+    },
+    []
   );
 
   const changeSearch = useCallback(
-  (newSearch) => {
-    setSearch(newSearch);
-  },
-  []
+    (newSearch) => {
+      setSearch(newSearch);
+    },
+    []
   );
 
 
@@ -72,6 +72,7 @@ const ProductsPage = () => {
     <Container className="normal-container">
       <h1>Products</h1>
       <ProductsList
+        showFilters={showFilters}
         toggleFilters={toggleFilters}
         currentFilter={currentFilter}
         currentPType={currentPType}
