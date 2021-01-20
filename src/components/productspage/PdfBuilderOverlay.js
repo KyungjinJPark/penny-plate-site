@@ -27,7 +27,7 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
                     <td className="saved-item-img-cell">
                       <img
                         className="saved-item-img"
-                        src={"http://pennyplate.com/wp-content/uploads/2014/07/Circular-Danish-black-571x428.png"}
+                        src={item.photos[0].url}
                         alt="..." />
                     </td>
                     <td className="saved-item-desc">
