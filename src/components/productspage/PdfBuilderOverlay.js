@@ -48,7 +48,7 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={() => pdfFromItems(savedItems)}>Create PDF from Saved Items</Button>
+        <Button variant="success" onClick={() => {savedItems.length > 0 ? pdfFromItems(savedItems) : console.log("No items in cart")}}>Create PDF from Saved Items</Button>
         <Button variant="primary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
@@ -62,21 +62,59 @@ export default PdfBuilderOverlay;
 const pdfFromItems = (savedItems) => {
   const doc = new jsPDF("portrait", "in", "letter");
 
+  var imgLogo = new Image();
+  imgLogo.src = logoImg;
 
-  var img = new Image();
-  img.src = logoImg;
-  doc.addImage(img, "PNG", 0.65, 0.5, 3, 1.5);
+  let firstItem = savedItems[0];
+  let firstProductImg = new Image();
+  firstProductImg.src = firstItem.photos[0].url;
 
+  doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
   doc.setFontSize(12);
   doc.setTextColor("#000000");
   doc.text("www.pennyplate.com", 6, 1);
-
   doc.line(0.5, 2, 8, 2, "F");
+  doc.addImage(firstProductImg, "PNG", .65, 4, firstProductImg.width * .005, firstProductImg.height * .005);
+  doc.text(firstItem.itemNo, .65 * 8, 4);
+  
+  doc.line(0.5, 9.5, 8, 9.5, "F");
 
-  for (let i = 0; i < savedItems.length; i++) {
-    doc.text(savedItems[i].itemNo, 0.65, i * 1 + 4);
+  doc.setFontSize(16);
+  doc.setTextColor("#000000");
+  doc.text("Contact Us", 0.5, 9.75);
+
+  doc.rect(0.5, 10.25, 7.5, 0.3, "F");
+
+  doc.setFontSize(10);
+  doc.setTextColor("#FFFFFF");
+  doc.text("Page " + 1 + " of " + savedItems.length, 0.6, 10.45);
+  for (let i = 1; i < savedItems.length; i++) {
+    let item = savedItems[i];
+    let productImg = new Image();
+    productImg.src = item.photos[0].url;
+    console.log(productImg.width + " " + productImg.height);
+    doc.addPage();
+    doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
+    doc.setFontSize(12);
+    doc.setTextColor("#000000");
+    doc.text("www.pennyplate.com", 6, 1);
+    doc.line(0.5, 2, 8, 2, "F");
+    doc.addImage(productImg, "PNG", .65, 4, productImg.width * .005, productImg.height * .005);
+    doc.text(item.itemNo, .65 * 8, 4);
+    
+    doc.line(0.5, 9.5, 8, 9.5, "F");
+
+    doc.setFontSize(16);
+    doc.setTextColor("#000000");
+    doc.text("Contact Us", 0.5, 9.75);
+
+    doc.rect(0.5, 10.25, 7.5, 0.3, "F");
+
+    doc.setFontSize(10);
+    doc.setTextColor("#FFFFFF");
+    doc.text("Page " + (i + 1) + " of " + savedItems.length, 0.6, 10.45);
   }
-
+/*
   doc.line(0.5, 9.5, 8, 9.5, "F");
 
   doc.setFontSize(16);
@@ -88,7 +126,7 @@ const pdfFromItems = (savedItems) => {
   doc.setFontSize(10);
   doc.setTextColor("#FFFFFF");
   doc.text("Page 0 of 0", 0.6, 10.45);
-
+*/
 
   doc.save("PennyPlate_Products_PDF.pdf");
 }
