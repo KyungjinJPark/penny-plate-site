@@ -49,14 +49,15 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" 
-                onClick={() => {if (savedItems.length > 0)                                                     
-                                {
-                                  pdfFromItems(savedItems);
-                                  console.log("PDF generated");
-                                  onHide();
-                                } 
-                                else { console.log("No items in cart")}}}>
+        <Button variant="success"
+          onClick={() => {
+            if (savedItems.length > 0) {
+              pdfFromItems(savedItems);
+              console.log("PDF generated");
+              onHide();
+            }
+            else { console.log("No items in cart") }
+          }}>
           Create PDF from Saved Items
         </Button>
         <Button variant="primary" onClick={onHide}>Close</Button>
@@ -86,7 +87,7 @@ const pdfFromItems = (savedItems) => {
   doc.line(0.5, 2, 8, 2, "F");
   doc.addImage(firstProductImg, "PNG", .65, 4, firstProductImg.width * .005, firstProductImg.height * .005);
   doc.text(firstItem.itemNo, .65 * 8, 4);
-  
+
   doc.line(0.5, 9.5, 8, 9.5, "F");
 
   doc.setFontSize(16);
@@ -111,7 +112,7 @@ const pdfFromItems = (savedItems) => {
     doc.line(0.5, 2, 8, 2, "F");
     doc.addImage(productImg, "PNG", .65, 4, productImg.width * .005, productImg.height * .005);
     doc.text(item.itemNo, .65 * 8, 4);
-    
+
     doc.line(0.5, 9.5, 8, 9.5, "F");
 
     doc.setFontSize(16);
@@ -124,19 +125,19 @@ const pdfFromItems = (savedItems) => {
     doc.setTextColor("#FFFFFF");
     doc.text("Page " + (i + 1) + " of " + savedItems.length, 0.6, 10.45);
   }
-/*
-  doc.line(0.5, 9.5, 8, 9.5, "F");
-
-  doc.setFontSize(16);
-  doc.setTextColor("#000000");
-  doc.text("Contact Us", 0.5, 9.75);
-
-  doc.rect(0.5, 10.25, 7.5, 0.3, "F");
-
-  doc.setFontSize(10);
-  doc.setTextColor("#FFFFFF");
-  doc.text("Page 0 of 0", 0.6, 10.45);
-*/
+  /*
+    doc.line(0.5, 9.5, 8, 9.5, "F");
+  
+    doc.setFontSize(16);
+    doc.setTextColor("#000000");
+    doc.text("Contact Us", 0.5, 9.75);
+  
+    doc.rect(0.5, 10.25, 7.5, 0.3, "F");
+  
+    doc.setFontSize(10);
+    doc.setTextColor("#FFFFFF");
+    doc.text("Page 0 of 0", 0.6, 10.45);
+  */
 
   doc.save("PennyPlate_Products_PDF.pdf");
 }
