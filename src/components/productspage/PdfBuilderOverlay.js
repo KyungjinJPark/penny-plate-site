@@ -102,8 +102,7 @@ const pdfFromItems = (savedItems) => {
   let offset = .25 * (spacedApps.length - 1);
   spacedApps[0] = "Application(s):" + spacedApps[0];
   
-  let notices = (item.notices !== null) ? (item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n')) : [];
-
+  let notices = (item.notices !== null) ? (item.notices.markdown) : "";
   doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
 
   doc.setFontSize(16);
@@ -164,7 +163,7 @@ const pdfFromItems = (savedItems) => {
     offset = .25 * (spacedApps.length - 1);
     spacedApps[0] = "Application(s):" + spacedApps[0];
 
-    notices = (item.notices !== null) ? (item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n')) : [];
+    notices = (item.notices !== null) ? (item.notices.markdown) : "";
 
     doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
 
