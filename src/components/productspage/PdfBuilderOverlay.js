@@ -102,7 +102,7 @@ const pdfFromItems = (savedItems) => {
   let offset = .25 * (spacedApps.length - 1);
   spacedApps[0] = "Application(s):" + spacedApps[0];
   
-  let notices = item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n');
+  let notices = (item.notices !== null) ? (item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n')) : [];
 
   doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
 
@@ -110,12 +110,15 @@ const pdfFromItems = (savedItems) => {
   doc.setTextColor("#000000");
   doc.setFont("helvetica", "bold")
   doc.text(item.description, .65 * 1.75, 3.5);
-  doc.text("Extra Information", .65 * 1.75, 6.5)
+  if (notices.length !== 0) {
+    doc.text("Extra Information", .65 * 1.75, 6.5)
+  }
   doc.setFont("helvetica","italic");
   doc.text(item.itemNo, .65 * 1.75, 3.75)
   doc.setFont("helvetica","normal");
-  doc.setFontSize(12);
+  doc.setFontSize(10.5);
   doc.setTextColor("#000000");
+  doc.setFontSize(11);
   doc.text(notices, .65 * 1.75, 6.75);
   doc.text("www.pennyplate.com", 6, 1);
 
@@ -161,7 +164,7 @@ const pdfFromItems = (savedItems) => {
     offset = .25 * (spacedApps.length - 1);
     spacedApps[0] = "Application(s):" + spacedApps[0];
 
-    notices = item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n');
+    notices = (item.notices !== null) ? (item.notices.html.replace(/(<div>)|(<p>)/g, '\n').replace(/<([^>]+)>/ig, '').trim().split('\n')) : [];
 
     doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
 
@@ -169,13 +172,16 @@ const pdfFromItems = (savedItems) => {
     doc.setTextColor("#000000");
     doc.setFont("helvetica", "bold")
     doc.text(item.description, .65 * 1.75, 3.5);
-    doc.text("Extra Information", .65 * 1.75, 6.5)
+    if (notices.length !== 0) {
+      doc.text("Extra Information", .65 * 1.75, 6.5)
+    }
     doc.setFont("helvetica","italic");
     doc.text(item.itemNo, .65 * 1.75, 3.75)
     doc.setFont("helvetica","normal");
-    doc.setFontSize(12);
+    doc.setFontSize(10.5);
     doc.setTextColor("#000000");
     doc.text(notices, .65 * 1.75, 6.75);
+    doc.setFontSize(11);
     doc.text("www.pennyplate.com", 6, 1);
 
     doc.line(0.5, 2, 8, 2, "F");
@@ -217,4 +223,8 @@ const pdfFromItems = (savedItems) => {
 
 const spaceWords = (name) => {
   return name.replace(/([A-Z])/g, " $1");
+}
+
+const removeHTMLChars = (victim) => {
+  return victim.replace
 }
