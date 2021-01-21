@@ -106,15 +106,23 @@ export default ProductsList;
 
 const Search = ({ onSearch, defaultText }) => {
   const [currText, setText] = useState(defaultText);
-
+  const changeText = (value) => {
+    setText(value.replaceAll(" ", ""));
+  }
   const doSearch = () => {
     onSearch(currText);
+  }
+  const handleKeyPress = (target) => {
+    if (target.charCode == 13) {
+      doSearch();
+    }
   }
   return <InputGroup>
     <FormControl
       placeholder="Search by item ID or a keyword in the description"
       value={currText}
-      onChange={(event) => (setText(event.target.value))}
+      onChange={(event) => (changeText(event.target.value))}
+      onKeyPress={handleKeyPress}
     />
     <InputGroup.Append>
       <Button variant="secondary" onClick={doSearch}>Search</Button>
@@ -206,15 +214,21 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
             <p><em>{item.itemNo}</em></p>
             <Row>
               <Col lg={12} xl={6}>
-                <Carousel style={{ color: "#000" }}>
-                  {info.photos.map((resource) => <Carousel.Item>
-                    <img
-                      src={resource.url}
-                      className="product-popup-image"
-                      alt="..."
-                    />
-                  </Carousel.Item>)}
-                </Carousel>
+                {(info.photos.length > 1)
+                  ? <Carousel style={{ color: "#000" }}>
+                    {info.photos.map((resource) => <Carousel.Item>
+                      <img
+                        src={resource.url}
+                        className="product-popup-image"
+                        alt="product photo"
+                      />
+                    </Carousel.Item>)}
+                  </Carousel>
+                  : <img
+                    src={info.photos[0].url}
+                    className="product-popup-image"
+                    alt="product photo"
+                  />}
               </Col>
               <Col lg={12} xl={6}>
                 <p>
