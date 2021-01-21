@@ -229,7 +229,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                 </Col>
                 <Col lg={12} xl={6}>
                   <p>
-                    <b>Application(s):</b> {spaceWords("" + info.application)}<br />
+                    <b>Application(s):</b> {spaceManyWords(info.application)}<br />
                     <b>Product Type:</b> {spaceWords(info.productType)}<br />
                     <b>Shape:</b> {info.shape}<br />
                     <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
@@ -277,6 +277,14 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
       </>
     )
   }
+}
+
+const spaceManyWords = (names) => {
+  let finalString = spaceWords("" + names[0]);
+  for (let x = 1; x < names.length; ++x) {
+    finalString = finalString + ", " + spaceWords("" + names[x]);
+  }
+  return finalString;
 }
 
 const spaceWords = (name) => {
