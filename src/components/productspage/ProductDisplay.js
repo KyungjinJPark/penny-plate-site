@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useQuery } from "react-apollo";
-import { Button, Card, Row, Col, InputGroup, FormControl, Modal, Carousel } from "react-bootstrap";
+import { Button, Card, Row, Col, InputGroup, FormControl, Modal, Carousel, Toast } from "react-bootstrap";
 
 import { PRODUCTS_QUERY, FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
@@ -150,29 +150,31 @@ const Product = ({ item, addToSavedItems, setFocusItem, setProductModalVisible }
 
 // TODO: Make a query so this displays real data
 const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
+
+  const [showToast, setShowToast] = useState(false);
   const { loading: infoLoading, error: infoError, data: infoData } = useQuery(FOCUS_PRODUCT_INFO_QUERY, {
     variables: { itemId: item.id },
   });
+
   if (infoLoading) {
     return (
-      <Modal
-        show={show}
-        onHide={onHide}
-        size="xl"
-        dialogClassName="no-border-modal"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton />
-        <Modal.Body>
-          <h4>Fetching products.....</h4>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal
+          show={show}
+          onHide={onHide}
+          size="xl"
+          dialogClassName="no-border-modal"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton />
+          <Modal.Body>
+            <h4>Fetching products.....</h4>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={onHide}>Close</Button>
+          </Modal.Footer>
+        </Modal>
     )
-
   }
   else if (infoError) {
     return (
@@ -199,20 +201,29 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
     const info = infoData.products;
     console.log("item info recieved!");
     console.log(info);
-    return (
-      <Modal
-        show={show}
-        onHide={onHide}
-        size="xl"
-        dialogClassName="no-border-modal"
-        centered
-      >
-        <Modal.Header closeButton />
-        <Modal.Body>
-          <div className="popup-content">
-            <h1>{item.description}</h1>
-            <p><em>{item.itemNo}</em></p>
-            <Row>
+    return 
+      <>
+        <Toast onClose={() => {setShowToast(false)}} show={showToast} delay={3000} autohide
+          style={{
+            zIndex: "100000000",
+            position:"absolute",
+            bottom: "5%",
+          }}>
+          <Toast.Body>Item added to cart</Toast.Body>
+        </Toast>      
+        <Modal
+          show={show}
+          onHide={onHide}
+          size="xl"
+          dialogClassName="no-border-modal"
+          centered
+        >
+          <Modal.Header closeButton />
+          <Modal.Body>
+            <div className="popup-content">
+              <h1>{item.description}</h1>
+              <p><em>{item.itemNo}</em></p>
+              <Row>
               <Col lg={12} xl={6}>
                 {(info.photos.length > 1)
                   ? <Carousel style={{ color: "#000" }}>
@@ -229,54 +240,55 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                     className="product-popup-image"
                     alt="product photo"
                   />}
-              </Col>
-              <Col lg={12} xl={6}>
-                <p>
-                  <b>Application(s):</b> {spaceWords("" + info.application)}<br />
-                  <b>Product Type:</b> {spaceWords(info.productType)}<br />
-                  <b>Shape:</b> {info.shape}<br />
-                  <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
-                  <b>Rim:</b> {info.rimStyle}<br />
-                  <b>Top In:</b> {info.topIn}<br />
-                  <b>Top Out:</b> {info.topOut}<br />
-                  <b>Bottom:</b> {info.bottom}<br />
-                  <b>Depth:</b> {info.depth}<br />
-                  <b>Capacity (Fl. Oz.):</b> {(info.panCapacity) ? info.panCapacity : "N/A"}<br />
+                </Col>
+                <Col lg={12} xl={6}>
+                  <p>
+                    <b>Application(s):</b> {spaceWords("" + info.application)}<br />
+                    <b>Product Type:</b> {spaceWords(info.productType)}<br />
+                    <b>Shape:</b> {info.shape}<br />
+                    <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
+                    <b>Rim:</b> {info.rimStyle}<br />
+                    <b>Top In:</b> {info.topIn}<br />
+                    <b>Top Out:</b> {info.topOut}<br />
+                    <b>Bottom:</b> {info.bottom}<br />
+                    <b>Depth:</b> {info.depth}<br />
+                    <b>Capacity (Fl. Oz.):</b> {(info.panCapacity) ? info.panCapacity : "N/A"}<br />
 
-                  <b>Pans per Case:</b> {info.pansPerCase}<br />
-                  <b>TI:</b> {info.ti}<br />
-                  <b>HI:</b> {info.hi}<br />
-                  <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
-                  <b>Case Weight (lbs.):</b> {info.caseWeight}<br />
-                  <b>Order Quantity:</b> {info.orderQuantity}<br />
-                  <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
-                  <Button
-                    variant="success"
-                    onClick={() => addToSavedItems(info)}
-                    style={{ marginTop: "10px" }}
-                  >
-                    Save Item
-                    </Button>
-                </p>
-              </Col>
-              {info.notices && <>
-                <Col xs={12}>
-                  <h1>Extra Information</h1>
+                    <b>Pans per Case:</b> {info.pansPerCase}<br />
+                    <b>TI:</b> {info.ti}<br />
+                    <b>HI:</b> {info.hi}<br />
+                    <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
+                    <b>Case Weight (lbs.):</b> {info.caseWeight}<br />
+                    <b>Order Quantity:</b> {info.orderQuantity}<br />
+                    <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
+                    <Button
+                      variant="success"
+                      onClick={() => addToSavedItems(info)}
+                      style={{ marginTop: "10px" }}
+                    >
+                      Save Item
+                      </Button>
+                  </p>
                 </Col>
-                <Col xs={12}>
-                  <div>
-                    <p dangerouslySetInnerHTML={{ __html: info.notices.html }}></p>
-                  </div>
-                </Col>
-              </>}
-            </Row>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="success" onClick={() => addToSavedItems(info)}>Save Item</Button>
-          <Button variant="primary" onClick={onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+                {info.notices && <>
+                  <Col xs={12}>
+                    <h1>Extra Information</h1>
+                  </Col>
+                  <Col xs={12}>
+                    <div>
+                      <p dangerouslySetInnerHTML={{ __html: info.notices.html }}></p>
+                    </div>
+                  </Col>
+                </>}
+              </Row>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="success" onClick={() => {addToSavedItems(info); setShowToast(true)}}>Save Item</Button>
+            <Button variant="primary" onClick={onHide}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     )
   }
 }
