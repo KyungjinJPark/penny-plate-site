@@ -118,6 +118,7 @@ query ProductInfoQuery($itemId: ID!){
     topOut
     notices {
       html
+      markdown
     }
     photos {
       url(
