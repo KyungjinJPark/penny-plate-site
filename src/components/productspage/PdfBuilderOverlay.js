@@ -4,6 +4,7 @@ import { Modal, Button } from "react-bootstrap";
 import logoImg from "../../imgs/pennyplate-logo.png"
 
 const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
+  console.log("Hello World");
   return (
     <Modal
       show={show}
@@ -48,7 +49,16 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="success" onClick={() => {savedItems.length > 0 ? pdfFromItems(savedItems) : console.log("No items in cart")}}>Create PDF from Saved Items</Button>
+        <Button variant="success" 
+                onClick={() => {if (savedItems.length > 0)                                                     
+                                {
+                                  pdfFromItems(savedItems);
+                                  console.log("PDF generated");
+                                  onHide();
+                                } 
+                                else { console.log("No items in cart")}}}>
+          Create PDF from Saved Items
+        </Button>
         <Button variant="primary" onClick={onHide}>Close</Button>
       </Modal.Footer>
     </Modal>
@@ -61,7 +71,7 @@ export default PdfBuilderOverlay;
 // TODO: output proper PDF
 const pdfFromItems = (savedItems) => {
   const doc = new jsPDF("portrait", "in", "letter");
-
+  console.log(savedItems);
   var imgLogo = new Image();
   imgLogo.src = logoImg;
 
