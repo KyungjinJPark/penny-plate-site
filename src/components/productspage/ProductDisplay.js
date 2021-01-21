@@ -106,15 +106,23 @@ export default ProductsList;
 
 const Search = ({ onSearch, defaultText }) => {
   const [currText, setText] = useState(defaultText);
-
+  const changeText = (value) => {
+    setText(value.replaceAll(" ", ""));
+  }
   const doSearch = () => {
     onSearch(currText);
+  }
+  const handleKeyPress = (target) => {
+    if (target.charCode == 13) {
+      doSearch();
+    }
   }
   return <InputGroup>
     <FormControl
       placeholder="Search by item ID or a keyword in the description"
       value={currText}
-      onChange={(event) => (setText(event.target.value))}
+      onChange={(event) => (changeText(event.target.value))}
+      onKeyPress={handleKeyPress}
     />
     <InputGroup.Append>
       <Button variant="secondary" onClick={doSearch}>Search</Button>
@@ -150,22 +158,22 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
 
   if (infoLoading) {
     return (
-        <Modal
-          show={show}
-          onHide={onHide}
-          size="xl"
-          dialogClassName="no-border-modal"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header closeButton />
-          <Modal.Body>
-            <h4>Fetching products.....</h4>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={onHide}>Close</Button>
-          </Modal.Footer>
-        </Modal>
+      <Modal
+        show={show}
+        onHide={onHide}
+        size="xl"
+        dialogClassName="no-border-modal"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <h4>Fetching products.....</h4>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     )
   }
   else if (infoError) {
@@ -193,89 +201,93 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
     const info = infoData.products;
     console.log("item info recieved!");
     console.log(info);
-    return (
-      <>
-        <Toast onClose={() => {setShowToast(false)}} show={showToast} delay={3000} autohide
-          style={{
-            zIndex: "100000000",
-            position:"absolute",
-            bottom: "5%",
-          }}>
-          <Toast.Body>Item added to cart</Toast.Body>
-        </Toast>      
-        <Modal
-          show={show}
-          onHide={onHide}
-          size="xl"
-          dialogClassName="no-border-modal"
-          centered
-        >
-          <Modal.Header closeButton />
-          <Modal.Body>
-            <div className="popup-content">
-              <h1>{item.description}</h1>
-              <p><em>{item.itemNo}</em></p>
-              <Row>
-                <Col lg={12} xl={6}>
-                  <Carousel style={{ color: "#000" }}>
+    return <>
+      <Toast onClose={() => { setShowToast(false) }} show={showToast} delay={3000} autohide
+        style={{
+          zIndex: "100000000",
+          position: "absolute",
+          bottom: "5%",
+        }}>
+        <Toast.Body>Item added to cart</Toast.Body>
+      </Toast>
+      <Modal
+        show={show}
+        onHide={onHide}
+        size="xl"
+        dialogClassName="no-border-modal"
+        centered
+      >
+        <Modal.Header closeButton />
+        <Modal.Body>
+          <div className="popup-content">
+            <h1>{item.description}</h1>
+            <p><em>{item.itemNo}</em></p>
+            <Row>
+              <Col lg={12} xl={6}>
+                {(info.photos.length > 1)
+                  ? <Carousel style={{ color: "#000" }}>
                     {info.photos.map((resource) => <Carousel.Item>
                       <img
                         src={resource.url}
                         className="product-popup-image"
-                        alt="..."
+                        alt="product photo"
                       />
                     </Carousel.Item>)}
                   </Carousel>
-                </Col>
-                <Col lg={12} xl={6}>
-                  <p>
-                    <b>Application(s):</b> {spaceManyWords(info.application)}<br />
-                    <b>Product Type:</b> {spaceWords(info.productType)}<br />
-                    <b>Shape:</b> {info.shape}<br />
-                    <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
-                    <b>Rim:</b> {info.rimStyle}<br />
-                    <b>Top In:</b> {info.topIn}<br />
-                    <b>Top Out:</b> {info.topOut}<br />
-                    <b>Bottom:</b> {info.bottom}<br />
-                    <b>Depth:</b> {info.depth}<br />
-                    <b>Capacity (Fl. Oz.):</b> {(info.panCapacity) ? info.panCapacity : "N/A"}<br />
+                  : <img
+                    src={info.photos[0].url}
+                    className="product-popup-image"
+                    alt="product photo"
+                  />}
+              </Col>
+              <Col lg={12} xl={6}>
+                <p>
+                  <b>Application(s):</b> {spaceManyWords(info.application)}<br />
+                  <b>Product Type:</b> {spaceWords(info.productType)}<br />
+                  <b>Shape:</b> {info.shape}<br />
+                  <b>Stock Type:</b> {spaceWords("" + info.stockType)}<br />
+                  <b>Rim:</b> {info.rimStyle}<br />
+                  <b>Top In:</b> {info.topIn}<br />
+                  <b>Top Out:</b> {info.topOut}<br />
+                  <b>Bottom:</b> {info.bottom}<br />
+                  <b>Depth:</b> {info.depth}<br />
+                  <b>Capacity (Fl. Oz.):</b> {(info.panCapacity) ? info.panCapacity : "N/A"}<br />
 
-                    <b>Pans per Case:</b> {info.pansPerCase}<br />
-                    <b>TI:</b> {info.ti}<br />
-                    <b>HI:</b> {info.hi}<br />
-                    <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
-                    <b>Case Weight (lbs.):</b> {info.caseWeight}<br />
-                    <b>Order Quantity:</b> {info.orderQuantity}<br />
-                    <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
-                    <Button
-                      variant="success"
-                      onClick={() => addToSavedItems(info)}
-                      style={{ marginTop: "10px" }}
-                    >
-                      Save Item
+                  <b>Pans per Case:</b> {info.pansPerCase}<br />
+                  <b>TI:</b> {info.ti}<br />
+                  <b>HI:</b> {info.hi}<br />
+                  <b>Case Size (Ft. cubed):</b> {info.caseCubeFt}<br />
+                  <b>Case Weight (lbs.):</b> {info.caseWeight}<br />
+                  <b>Order Quantity:</b> {info.orderQuantity}<br />
+                  <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
+                  <Button
+                    variant="success"
+                    onClick={() => addToSavedItems(info)}
+                    style={{ marginTop: "10px" }}
+                  >
+                    Save Item
                       </Button>
-                  </p>
+                </p>
+              </Col>
+              {info.notices && <>
+                <Col xs={12}>
+                  <h1>Extra Information</h1>
                 </Col>
-                {info.notices && <>
-                  <Col xs={12}>
-                    <h1>Extra Information</h1>
-                  </Col>
-                  <Col xs={12}>
-                    <div>
-                      <p dangerouslySetInnerHTML={{ __html: info.notices.html }}></p>
-                    </div>
-                  </Col>
-                </>}
-              </Row>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="success" onClick={() => {addToSavedItems(info); setShowToast(true)}}>Save Item</Button>
-            <Button variant="primary" onClick={onHide}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    )
+                <Col xs={12}>
+                  <div>
+                    <p dangerouslySetInnerHTML={{ __html: info.notices.html }}></p>
+                  </div>
+                </Col>
+              </>}
+            </Row>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={() => { addToSavedItems(info); setShowToast(true) }}>Save Item</Button>
+          <Button variant="primary" onClick={onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   }
 }
 
