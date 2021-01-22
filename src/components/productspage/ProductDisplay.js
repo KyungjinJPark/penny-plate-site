@@ -169,6 +169,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
         <Modal.Header closeButton />
         <Modal.Body>
           <h4>Fetching products.....</h4>
+          <h4>If the products do not load, <Link to="/catalog">please use the digital catalog</Link></h4>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide}>Close</Button>
@@ -189,7 +190,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
         <Modal.Header closeButton />
         <Modal.Body>
           <h4>Could not fetch products.</h4>
-          <Link to="/catalog"><h4>Please use the digital catalog</h4></Link>
+          <h4><Link to="/catalog">Please use the digital catalog</Link></h4>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={onHide}>Close</Button>
@@ -262,7 +263,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                   <b>Pallet Weight (lbs.):</b> {info.palletWeight}<br />
                   <Button
                     variant="success"
-                    onClick={() => addToSavedItems(info)}
+                    onClick={() => { addToSavedItems(info); setShowToast(true) }}
                     style={{ marginTop: "10px" }}
                   >
                     Save Item
