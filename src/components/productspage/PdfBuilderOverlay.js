@@ -1,10 +1,15 @@
 import { jsPDF } from "jspdf";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Modal, Button, Toast } from "react-bootstrap";
 
 import logoImg from "../../imgs/pennyplate-logo.png"
 
 const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
+
+  const logo = useRef();
+  let logoImage = new Image();
+  logoImage.src = logoImg;
+  logo.current = logoImage;
 
   const [toastMsg, setToastMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -65,7 +70,7 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
           <Button variant="success"
             onClick={() => {
               if (savedItems.length > 0) {
-                pdfFromItems(savedItems);
+                pdfFromItems(savedItems, logo.current);
                 setToastMsg("PDF generated");
                 setShowToast(true);
                 onHide();
@@ -88,12 +93,20 @@ export default PdfBuilderOverlay;
 
 
 
-const pdfFromItems = (savedItems) => {
+const pdfFromItems = (savedItems, imgLogo) => {
   // dimensions: 8.5 x 11 
   const doc = new jsPDF("portrait", "in", "letter");
+  let totalPages = savedItems.length;
+  for (let x = 0; x < totalPages; x++) {
+    let item = savedItems[x];
+    generatePage(doc, item, x + 1, totalPages, imgLogo);
+  }
+  doc.deletePage(totalPages + 1);
+  doc.save("PennyPlate_Products_PDF.pdf");
+}
 
-  var imgLogo = new Image();
-  imgLogo.src = logoImg;
+const generatePage = (doc, item, page, totalPages, imgLogo) => {
+
   doc.addImage(imgLogo, "PNG", 0.65, 0.5, 1.5 * (imgLogo.width / imgLogo.height), 1.5);
 
   doc.setFont("helvetica", "normal");
@@ -102,8 +115,6 @@ const pdfFromItems = (savedItems) => {
   doc.text("www.PennyPlate.com", 6, 1);
 
   doc.line(0.5, 2, 8, 2, "F");
-
-  let item = savedItems[0];
 
   doc.setFontSize(16);
   doc.setTextColor("#000000");
@@ -166,79 +177,10 @@ const pdfFromItems = (savedItems) => {
 
   doc.setFontSize(10);
   doc.setTextColor("#FFFFFF");
-  doc.text("Page " + 1 + " of " + savedItems.length, 0.6, 10.45);
-
-  // for (let i = 1; i < savedItems.length; i++) {
-  //   item = savedItems[i];
-  //   productImg = new Image();
-  //   productImg.src = item.photos[0].url;
-  //   doc.addPage();
-
-  //   spacedApps = item.application.map((applications) => { return spaceWords("" + applications) });
-  //   offset = .25 * (spacedApps.length - 1);
-  //   spacedApps[0] = "Application(s):" + spacedApps[0];
-
-  //   notices = (item.notices !== null) ? (item.notices.markdown) : "";
-
-  //   doc.addImage(imgLogo, "PNG", 0.65, 0.5, 3, 1.5);
-
-  //   doc.setFontSize(16);
-  //   doc.setTextColor("#000000");
-  //   doc.setFont("helvetica", "bold")
-  //   doc.text(item.description, 0.65, 3.5);
-  //   if (notices.length !== 0) {
-  //     doc.text("Extra Information", 0.65, 6.5)
-  //   }
-  //   doc.setFont("helvetica", "italic");
-  //   doc.text(item.itemNo, 0.65, 3.75)
-  //   doc.setFont("helvetica", "normal");
-  //   doc.setFontSize(10.5);
-  //   doc.setTextColor("#000000");
-  //   doc.text(notices, 0.65, 6.75);
-  //   doc.setFontSize(11);
-  //   doc.text("www.pennyplate.com", 6, 1);
-
-  //   doc.line(0.5, 2, 8, 2, "F");
-
-  //   doc.addImage(productImg, "PNG", .65, 4, productImg.width * .005, productImg.height * .005);
-  //   doc.text(spacedApps, 5, 4.25);
-  //   doc.text("Product Type:" + spaceWords(item.productType), 5, 4.5 + offset);
-  //   doc.text("Shape: " + item.shape, 5, 4.75 + offset);
-  //   doc.text("Stock Type:" + spaceWords(item.stockType), 5, 5 + offset);
-  //   doc.text("Rim: " + item.rimStyle, 5, 5.25 + offset);
-  //   doc.text("Top In: " + item.topIn, 5, 5.5 + offset);
-  //   doc.text("Top Out: " + item.topOut, 5, 5.75 + offset);
-  //   doc.text("Bottom: " + item.bottom, 5, 6 + offset);
-  //   doc.text("Depth: " + item.depth, 5, 6.25 + offset);
-  //   doc.text("Capacity (Fl. Oz.): " + ((item.panCapacity) ? item.panCapacity : "N/A"), 5, 6.5 + offset);
-  //   doc.text("Pans Per Case: " + item.pansPerCase, 5, 6.75 + offset);
-  //   doc.text("TI: " + item.ti, 5, 7 + offset);
-  //   doc.text("HI: " + item.hi, 5, 7.25 + offset);
-  //   doc.text("Case Size (Ft. Cubed): " + item.caseCubeFt, 5, 7.5 + offset);
-  //   doc.text("Case Weight (lbs.): " + item.caseWeight, 5, 7.75 + offset);
-  //   doc.text("Order Quantity: " + item.orderQuantity, 5, 8 + offset);
-  //   doc.text("Pallet Weight (lbs.): " + item.palletWeight, 5, 8.25 + offset);
-
-
-  //   doc.line(0.5, 9.5, 8, 9.5, "F");
-
-  //   doc.setFontSize(16);
-  //   doc.setTextColor("#000000");
-  //   doc.text("Contact Us", 0.5, 9.75);
-
-  //   doc.rect(0.5, 10.25, 7.5, 0.3, "F");
-
-  //   doc.setFontSize(10);
-  //   doc.setTextColor("#FFFFFF");
-  //   doc.text("Page " + (i + 1) + " of " + savedItems.length, 0.6, 10.45);
-  // }
-  doc.save("PennyPlate_Products_PDF.pdf");
+  doc.text("Page " + page + " of " + totalPages, 0.6, 10.45);
+  doc.addPage();
 }
 
 const spaceWords = (name) => {
   return name.replace(/([A-Z])/g, " $1");
-}
-
-const removeHTMLChars = (victim) => {
-  return victim.replace
 }
