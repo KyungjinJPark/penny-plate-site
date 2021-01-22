@@ -11,7 +11,7 @@ query ProductQuery($grabCount: Int!, $skipCount: Int!, $application: [Applicatio
     photos(first: 1) {
       url(
         transformation: {
-          image: { resize: { width: 400, fit: clip } },
+          image: { resize: { width: 400, height: 400, fit: clip } },
           document: { output: { format: jpg } } 
         }
       )
@@ -123,7 +123,7 @@ query ProductInfoQuery($itemId: ID!){
     photos {
       url(
         transformation: {
-          image: { resize: { width: 600, fit: clip } },
+          image: { resize: { width: 600, height: 600, fit: clip } },
           document: { output: { format: jpg } } 
         }
       )
