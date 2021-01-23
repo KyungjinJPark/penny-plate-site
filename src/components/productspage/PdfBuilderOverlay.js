@@ -173,9 +173,12 @@ const generatePage = (doc, item, page, totalPages, imgLogo) => {
   doc.setTextColor("#000000");
   doc.text("Contact Us", 0.65, 9.75);
 
+  doc.setFontSize(10);
+  doc.text("For sales inquiries, contact information, sample information or item specs please call 1-800-527-9909 (Toll Free)", .65, 10);
+  doc.text("or email info@pennyplate.com", .65, 10.125);
+
   doc.rect(0.5, 10.25, 7.5, 0.3, "F");
 
-  doc.setFontSize(10);
   doc.setTextColor("#FFFFFF");
   doc.text("Page " + page + " of " + totalPages, 0.6, 10.45);
   doc.addPage();
