@@ -22,7 +22,7 @@ const SiteFooter = () => <footer id="footer">
       <Col xs={6}>
         <p className="footer-text">
           <b>Customer Service</b>: 800-677-3102<br />
-          <b>bail</b>: info@pennyplate.com
+          <b>Mail</b>: info@pennyplate.com
       </p>
       </Col>
     </Row>
