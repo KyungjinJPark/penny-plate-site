@@ -72,12 +72,12 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
             onClick={() => {
               if (savedItems.length > 0) {
                 pdfFromItems(savedItems, logo.current);
-                setToastMsg("PDF generated");
+                setToastMsg("Generating PDF...");
                 setShowToast(true);
                 onHide();
               }
               else {
-                setToastMsg("No items in cart");
+                setToastMsg("No items in cart!");
                 setShowToast(true);
               }
             }}>
