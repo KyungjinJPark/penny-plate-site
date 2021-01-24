@@ -6,11 +6,32 @@
   padding-bottom: 3em;
 }
 
+.site-toast-style { 
+  position: absolute;
+  z-index: 100000000;
+  bottom: 5%;
+  right: 10%;
+  padding-left: 3em; 
+  padding-right: 3em; 
+  font-size: 16px;
+  color: black;
+  background-color: #cecece;
+}
+
 .separator {
   width: 48px;
   height: 3px;
   background-color: #DB3934;
   margin: 20px 0;
+}
+
+
+.nav-link-style { 
+  color: #FFFB;
+}
+.nav-link-style:hover { 
+  text-decoration: none;
+  color: #FFF;
 }
 
 #footer {

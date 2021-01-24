@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import "./productspage.css";
 import { FILTER_QUERY, PTYPE_QUERY, SHAPE_QUERY, STOCK_QUERY } from "./queries";
 import Filters from "./Filters";
-import ProductsList from "./ProductDisplay";
+import ProductsList from "./ProductList";
 
 const ProductsPage = () => {
   // TODO: why is it named "Filter" when its only for the application?

@@ -16,12 +16,13 @@ const PdfBuilderOverlay = ({ show, onHide, savedItems, removeSavedItem }) => {
 
   return (
     <>
-      <Toast onClose={() => { setShowToast(false) }} show={showToast} delay={3000} autohide
-        style={{
-          zIndex: "100000000",
-          position: "absolute",
-          bottom: "5%",
-        }}>
+      <Toast
+        show={showToast}
+        autohide
+        delay={3000}
+        onClose={() => { setShowToast(false) }}
+        className="site-toast-style"
+      >
         <Toast.Body>{toastMsg}</Toast.Body>
       </Toast>
       <Modal
@@ -174,7 +175,7 @@ const generatePage = (doc, item, page, totalPages, imgLogo) => {
   doc.text("Contact Us", 0.65, 9.75);
 
   doc.setFontSize(10);
-  doc.text("For sales inquiries, contact information, sample information or item specs please call 1-800-527-9909 (Toll Free)", .65, 10);
+  doc.text("For sales inquiries, contact information, sample information or item specs please call 1-800-527-9909 (Toll Free)", .65, 9.95);
   doc.text("or email info@pennyplate.com", .65, 10.125);
 
   doc.rect(0.5, 10.25, 7.5, 0.3, "F");
