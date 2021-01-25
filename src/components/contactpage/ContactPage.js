@@ -21,6 +21,9 @@ export default ContactPage;
 
 const ContactForm = () => {
   const [status, setStatus] = useState("Submit");
+
+  const mailURL = "https://pennyplate-email-test.herokuapp.com/contact/send-mail";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
@@ -31,7 +34,8 @@ const ContactForm = () => {
       subject: subject.value,
       message: message.value,
     };
-    let response = await fetch("http://localhost:5000/contact", {
+    console.log("sending message")
+    let response = await fetch(mailURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
