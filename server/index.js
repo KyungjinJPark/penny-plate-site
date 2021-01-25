@@ -3,12 +3,20 @@ import cors from "cors";
 
 import contactRountes from "./routes/contact.js"
 
-const app = express();
+import dotenv from "dotenv";
+dotenv.config();
 
-app.use("/contact", contactRountes);
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+app.use("/contact", contactRountes);
+
+app.get("/", (req, res) => {
+  res.send("Hello to PennyPlate request api")
+});
+
+const PORT = process.env.PORT || 5000;
+console.log(`Setting up server on port: ${PORT}.....`);
+app.listen(PORT, () => console.log("SUCCESS!"));

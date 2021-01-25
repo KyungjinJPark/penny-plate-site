@@ -1,58 +1,66 @@
-import express, { response } from "express";
+import express from "express";
 import nodemailer from "nodemailer";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send("The '/contact' endpoint works");
-})
+
+// Nodemailer account set up and verification
+console.log("Setting up Nodemailer.....");
+
+let contactEmail = undefined;
+
+try {
+  contactEmail = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.NODEMAILER_USERNAME + "@gmail.com",
+      pass: process.env.NODEMAILER_PASSWORD
+    },
+  });
+
+  contactEmail.verify((error) => {
+    if (error) {
+      console.log("ERROR!");
+      console.log("Err info: ", error);
+    }
+  });
+  console.log("SUCCESS!");
+} catch (error) {
+  console.log("ERROR!");
+  console.log("Err info: ", error);
+}
+
+// handler for post requests
+router.post("/send-mail", (req, res) => {
+  console.log("Recieved request to send email.");
+  try {
+    const { name, email, subject, message } = req.body;
+    const mail = {
+      from: name,
+      to: "kjosiahpark@gmail.com",
+      subject: `Contact Form: ${subject}`,
+      html: `<p>Name: ${name}</p>
+      <p>Email: ${email}</p>
+      <p>Message: ${message}</p>`,
+    };
+    console.log(mail)
+    contactEmail.sendMail(mail, (error) => {
+      if (error) {
+        console.log("Error with Nodemailer. Email not sent.");
+        res.json({ status: "Error sending email! Please email info@pennyplate.com manually." });
+      } else {
+        console.log("Email sent.");
+        res.json({ status: "Message successfully sent!" });
+      }
+    });
+  } catch (error) {
+    console.log("Error sending email");
+    console.log("Err msg: ", error);
+    res.json({ status: "Error sending email! Please email info@pennyplate.com manually." });
+  }
+});
 
 export default router;
-
-// // use express() to setup the server that’ll run on port 5000:
-// const app = express();
-// app.use("/", router);
-// app.listen(5000, () => console.log("Server Running"));
-
-// // import account credentials
-// const credentials = require("../secret.js");
-
-// // set up account w/ Nodemailer
-// const contactEmail = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: credentials.NODEMAILER_USERNAME + "@gmail.com",
-//     pass: credentials.NODEMAILER_PASSWORD
-//   },
-// });
-
-// // verify account
-// contactEmail.verify((error) => {
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log("Ready to Send");
-//   }
-// });
-
-// // handler for post requests
-// router.post("/contact/send-mail", (req, res) => {
-//   const name = req.body.name;
-//   const email = req.body.email;
-//   const message = req.body.message;
-//   const mail = {
-//     from: name,
-//     to: "kjosiahpark@gmail.com",
-//     subject: "Contact Form Submission",
-//     html: `<p>Name: ${name}</p>
-//            <p>Email: ${email}</p>
-//            <p>Message: ${message}</p>`,
-//   };
-//   contactEmail.sendMail(mail, (error) => {
-//     if (error) {
-//       res.json({ status: "ERROR" });
-//     } else {
-//       res.json({ status: "Message Sent" });
-//     }
-//   });
-// });
