@@ -56,8 +56,6 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
   }
   else {
     const info = infoData.products;
-    console.log("item info recieved!");
-    console.log(info);
     return <>
       <Toast
         show={showToast}

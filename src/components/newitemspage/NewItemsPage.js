@@ -32,7 +32,6 @@ const NewItemList = () => {
   if (loading) return <div>Fetching new products...</div>;
   if (error) return <div>Error fetching new products</div>;
   const articles = data.allNewItems;
-  console.log(articles)
   return (<Row>
     {articles.map(article => <Col xs={12} sm={6} md={4}>
       <Link to={`new-items/${article.id}`}>
