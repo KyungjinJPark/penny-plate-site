@@ -11,6 +11,9 @@ const ContactPage = () => {
       <div className="content-section">
         <p>For questions, quote requests, or custom pan design requests, please complete the form below:</p>
         <ContactForm />
+        <p style={{ fontSize: "18px", color: "#555555", marginTop: "2em" }}>
+          Ad blockers may block email requests. If this happens please disable the ad blocker or email info@pennyplate.com manually.
+        </p>
       </div>
     </Container>
   )
@@ -26,7 +29,7 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Sending...");
+    setStatus("Sending... This may take a while");
     const { name, email, subject, message } = e.target.elements;
     let details = {
       name: name.value,
@@ -34,17 +37,21 @@ const ContactForm = () => {
       subject: subject.value,
       message: message.value,
     };
-    console.log("sending message")
     let response = await fetch(mailURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify(details),
-    });
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.status);
+      })
+      .catch((error) => {
+        alert("Error sending email! Please email info@pennyplate.com manually.");
+      });
     setStatus("Submit");
-    let result = await response.json();
-    alert(result.status);
   };
 
   return (

@@ -59,7 +59,6 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
     },
   });
   if (productLoading) {
-    console.log("reload");
     return <div>
       <div className="separator"></div>
       <h4>Fetching products...</h4>
@@ -74,8 +73,6 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
     </div>
   }
   else {
-    console.log((currentSearch));
-    console.log(productData.allProducts);
     const items = productData.allProducts;
     return (
       <div>

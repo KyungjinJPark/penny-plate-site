@@ -55,7 +55,6 @@ const ProductsPage = () => {
     setShowFilters(old => !old);
   };
 
-  console.log(currentFilter);
   return (<div className="products-page-wrapper">
     <div style={{ display: showFilters ? "block" : "none" }}>
       <div className="products-sidebar">
