@@ -1,12 +1,20 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');
+import contactRountes from "./routes/contact.js";
+
+import express from "express";
+import bodyParser from "body-parser";
+import path from "path";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+app.use("/api/contact", contactRountes);
 
 // API calls
 app.get('/api/hello', (req, res) => {
@@ -30,4 +38,5 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+console.log(`Setting up server on port: ${port}.....`);
+app.listen(port, () => console.log("SUCCESS!"));
