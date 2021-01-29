@@ -1,4 +1,4 @@
-import { Component, useState } from "react";
+import { useState } from "react";
 import { Container, Button } from "react-bootstrap";
 
 import "./contactpage.css";

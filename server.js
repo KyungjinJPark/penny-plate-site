@@ -1,20 +1,31 @@
-import contactRountes from "./routes/contact.js";
+// import contactRountes from "./routes/contact.js";
 
-import express from "express";
-import bodyParser from "body-parser";
-import path from "path";
+// import express from "express";
+// import bodyParser from "body-parser";
+// import path from "path";
 
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+const contactRountes = require("./routes/contact.js");
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const path = require("path");
+
+const dotenv = require("dotenv");
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-app.use("/api/contact", contactRountes);
+console.log("HERE 1");
+app.use("/api/contact", contactRountes.router);
+console.log("HERE 2");
 
 // API calls
 app.get('/api/hello', (req, res) => {
@@ -27,6 +38,8 @@ app.post('/api/world', (req, res) => {
     `I received your POST request. This is what you sent me: ${req.body.post}`,
   );
 });
+
+console.log("dirname", __dirname);
 
 if (process.env.NODE_ENV === 'production') {
   // Serve any static files
