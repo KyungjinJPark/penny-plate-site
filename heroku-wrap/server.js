@@ -23,9 +23,7 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-console.log("HERE 1");
 app.use("/api/contact", contactRountes.router);
-console.log("HERE 2");
 
 // API calls
 app.get('/api/hello', (req, res) => {

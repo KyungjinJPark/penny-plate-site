@@ -49,7 +49,7 @@ const ContactForm = () => {
         alert(data.status);
       })
       .catch((error) => {
-        alert("Error sending email! Please email info@pennyplate.com manually.");
+        alert("Browser error sending email! Please email info@pennyplate.com manually.");
       });
     setStatus("Submit");
   };

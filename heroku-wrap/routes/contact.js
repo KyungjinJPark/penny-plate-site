@@ -55,7 +55,7 @@ router.post("/send-mail", (req, res) => {
     contactEmail.sendMail(mail, (error) => {
       if (error) {
         console.log("Error with Nodemailer. Email not sent.");
-        res.json({ status: "Error sending email! Please email info@pennyplate.com manually." });
+        res.json({ status: "Mailer error! Please email info@pennyplate.com manually." });
       } else {
         console.log("Email sent.");
         res.json({ status: "Message successfully sent!" });
