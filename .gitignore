@@ -1,9 +1,10 @@
 # dependencies
+/client/node_modules
 /server/node_modules
 /node_modules
 
 # production
-/build
+/client/build
 
 # misc
 npm-debug.log*
