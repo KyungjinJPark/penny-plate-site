@@ -40,7 +40,7 @@ router.post("/send-mail", (req, res) => {
     const { name, email, subject, message } = req.body;
     const mail = {
       from: name,
-      to: "kjosiahpark@gmail.com",
+      to: "info@pennyplate.com",
       subject: `Contact Form: ${subject}`,
       html: `<p>Name: ${name}</p>
       <p>Email: ${email}</p>

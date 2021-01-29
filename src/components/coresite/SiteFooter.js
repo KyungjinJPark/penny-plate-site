@@ -6,7 +6,7 @@ const SiteFooter = () => <footer id="footer">
   <Container id="footer-content">
     <Row>
       <Col xs={3}>
-        <h3 className="footer-heading">PennyPlate, LLC</h3>
+        <h3 className="footer-heading">Penny Plate, LLC</h3>
         <p className="footer-text">
           4461 Cox Rd. Suite 108<br />
         Glen Allen, VA 23060

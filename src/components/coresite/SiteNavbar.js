@@ -13,7 +13,7 @@ const SiteNavbar = () => {
               src={logoImg}
               height="50"
               className="d-inline-block align-top"
-              alt="PennyPlate"
+              alt="Penny Plate"
             />
           </Link>
         </Navbar.Brand>
