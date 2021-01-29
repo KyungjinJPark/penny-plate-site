@@ -1,7 +1,13 @@
-import express from "express";
-import nodemailer from "nodemailer";
+// import express from "express";
+// import nodemailer from "nodemailer";
 
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+const express = require("express");
+const nodemailer = require("nodemailer");
+
+const dotenv = require("dotenv");
 dotenv.config();
 
 const router = express.Router();
@@ -62,4 +68,5 @@ router.post("/send-mail", (req, res) => {
   }
 });
 
-export default router;
+// export default router;
+exports.router = router;
