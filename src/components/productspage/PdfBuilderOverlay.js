@@ -143,7 +143,9 @@ const generatePage = (doc, item, page, totalPages, imgLogo) => {
   doc.setFont("helvetica", "normal");
   doc.setTextColor("#000000");
   doc.setFontSize(10);
-  doc.text(notices, 0.65, 6.25);
+  doc.text(notices, 0.65, 6.25, {
+    maxWidth: 4.2
+  });
 
   let rightDataStart = 3.35;
   let rightDataSpace = 0.25;
