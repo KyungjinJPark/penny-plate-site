@@ -118,7 +118,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
           </Button>
         </div>
         <PdfBuilderOverlay show={showSavedItemsModal} onHide={hideSavedItemsModal} savedItems={savedItems} removeSavedItem={removeSavedItem} />
-        {/* <ProductPopUp show={showProductModal} item={focusItem} addToSavedItems={addToSavedItems} onHide={hidePopUpModal} /> */}
+        <ProductPopUp show={showProductModal} item={focusItem} addToSavedItems={addToSavedItems} onHide={hidePopUpModal} />
       </div>
     )
   }
