@@ -8,8 +8,9 @@ import { FOCUS_PRODUCT_INFO_QUERY } from "./queries";
 const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
 
   const [showToast, setShowToast] = useState(false);
+  const iid = item.id;
   const { loading: infoLoading, error: infoError, data: infoData } = useQuery(FOCUS_PRODUCT_INFO_QUERY, {
-    variables: { itemId: item.id },
+    variables: { itemId: iid },
   });
 
   if (infoLoading) {
