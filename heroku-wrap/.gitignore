@@ -2,10 +2,9 @@
 node_modules
 
 # production
-/heroku-wrap/client/build
+/client/build
 
-# secrets
-.env
+# no secrets here...
 
 # misc
 npm-debug.log*
