@@ -147,6 +147,9 @@ const generatePage = (doc, item, page, totalPages, imgLogo) => {
     maxWidth: 4.2
   });
 
+  doc.setFillColor("#FFFFFF")
+  doc.rect(0.55, 9.3, 4.4, 8, "F")
+
   let rightDataStart = 3.35;
   let rightDataSpace = 0.25;
   let spacedApps = item.application.map((applications) => { return spaceWords("" + applications) });
