@@ -56,8 +56,10 @@ const ProductsPage = () => {
   };
 
   return (<div className="products-page-wrapper">
-
-    {showFilters && <div className="products-sidebar">
+    <div
+      className="products-sidebar"
+      style={{ display: showFilters ? "block" : "none" }}
+    >
       <h1>Filters</h1>
       <Button
         variant="primary"
@@ -72,7 +74,7 @@ const ProductsPage = () => {
         <Filters onSend={changeShape} filterType={"Shapes"} query={SHAPE_QUERY} />
         <Filters onSend={changeStock} filterType={"Stock Types"} query={STOCK_QUERY} />
       </div>
-    </div>}
+    </div>
     <Container className="normal-container">
       <h1>Products</h1>
       <ProductsList
@@ -86,7 +88,7 @@ const ProductsPage = () => {
         changeSearch={changeSearch}
       />
     </Container>
-  </div >)
+  </div>)
 }
 
 export default ProductsPage;
