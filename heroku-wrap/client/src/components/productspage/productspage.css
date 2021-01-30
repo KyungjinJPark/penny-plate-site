@@ -79,7 +79,7 @@
   background-image: none;
 }
 
-.carousel-control-next-icon:after
+.no-border-modal .carousel-control-next-icon:after
 {
   content: '>';
   font-size: 55px;
@@ -88,7 +88,7 @@
   background-color: #99999966;
 }
 
-.carousel-control-prev-icon:after {
+.no-border-modal .carousel-control-prev-icon:after {
   content: '<';
   font-size: 55px;
   color: black;

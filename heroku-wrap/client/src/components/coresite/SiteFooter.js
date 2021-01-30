@@ -5,21 +5,30 @@ const SiteFooter = () => <footer id="footer">
   </div>
   <Container id="footer-content">
     <Row>
-      <Col xs={3}>
+      <Col
+        sm={12} md={4}
+        className="footer-col"
+      >
         <h3 className="footer-heading">Penny Plate, LLC</h3>
         <p className="footer-text">
           4461 Cox Rd. Suite 108<br />
         Glen Allen, VA 23060
       </p>
       </Col>
-      <Col xs={3}>
+      <Col
+        sm={12} md={4}
+        className="footer-col"
+      >
         <p className="footer-text">
           <b>Telephone</b>: 856-429-7583<br />
           <b>Toll Free</b>: 1-800-527-9909<br />
           {/* <b>Fax</b>: 804-897-1926 */}
         </p>
       </Col>
-      <Col xs={6}>
+      <Col
+        sm={12} md={4}
+        className="footer-col"
+      >
         <p className="footer-text">
           <b>Customer Service</b>: 800-677-3102<br />
           <b>Email</b>: info@pennyplate.com

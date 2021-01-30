@@ -49,15 +49,18 @@
 #footer-content {
   padding: 3em 0;
 }
+.footer-col {
+  padding-left: 50px;
+}
 .footer-heading {
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
 }
 .footer-text {
   font-weight: 400;
-  font-size: 18px;
+  font-size: 16px;
 }
 .footer-text b {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 16px;
 }
