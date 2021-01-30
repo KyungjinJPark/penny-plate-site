@@ -36,12 +36,12 @@ const AboutPage = () => {
       <p>Penny Plate, LLC supplies three major markets: Food Processors, Food Service Distribution, and Retail. All three markets use our products in distinct ways:</p>
       <div className="markets-inside-wrapper">
         {marketsData.map((data, index) => <Row className="markets-li">
-          <Col xs={1}>
+          <Col xs={3} sm={2} md={2} lg={1}>
             <div className="markets-red-circle">
               <p>{index + 1}</p>
             </div>
           </Col>
-          <Col>
+          <Col xs={9} sm={10} md={10} lg={11}>
             <h4>{data.header}</h4>
             <p>{data.text}</p>
           </Col>

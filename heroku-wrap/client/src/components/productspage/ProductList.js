@@ -76,11 +76,27 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
     const items = productData.allProducts;
     return (
       <div>
-        <div className="options-bar">
+        <InputGroup>
           <Search onSearch={changeSearch} defaultText={currentSearch} style={{ display: "inline" }} />
-          <Button variant={showFilters ? "primary" : "secondary"} style={{ width: "100px" }} className="spaced-button" onClick={toggleFilters}>Filters</Button>
-          <Button variant="secondary" style={{ width: "200px" }} className="spaced-button" onClick={setSavedItemsModalVisible}>Saved Items ({savedItems.length})</Button>
-        </div>
+          <InputGroup.Append>
+            <Button
+              variant={showFilters ? "primary" : "secondary"}
+              className="spaced-button"
+              onClick={toggleFilters}
+            >
+              Filters
+            </Button>
+          </InputGroup.Append>
+          <InputGroup.Append>
+            <Button
+              variant="secondary"
+              className="spaced-button"
+              onClick={setSavedItemsModalVisible}
+            >
+              Saved ({savedItems.length})
+            </Button>
+          </InputGroup.Append>
+        </InputGroup>
         <div className="separator"></div>
         <Row>
           {items.slice(0, 15).map(item => <Product key={item.id} item={item} addToSavedItems={addToSavedItems} setFocusItem={setFocusItem} setProductModalVisible={setProductModalVisible} />)}
@@ -123,7 +139,7 @@ const Search = ({ onSearch, defaultText }) => {
       doSearch();
     }
   }
-  return <InputGroup>
+  return <>
     <FormControl
       placeholder="Search by item ID or a keyword in the description"
       value={currText}
@@ -133,7 +149,7 @@ const Search = ({ onSearch, defaultText }) => {
     <InputGroup.Append>
       <Button variant="secondary" onClick={doSearch}>Search</Button>
     </InputGroup.Append>
-  </InputGroup>
+  </>
 }
 
 // TODO: what to do w/ addToSavedItems?; display ItemNo? 
@@ -145,7 +161,7 @@ const Product = ({ item, addToSavedItems, setFocusItem, setProductModalVisible }
     <Card.Img
       src={item.photos[0].url}
       alt="..."
-      style={{ boxShadow: "2px 4px 7px #AAAAAA" }}
+      style={{ boxShadow: "1px 3px 8px #AAAAAA" }}
     />
     <div className="single-product-text">
       {/* <h4>{item.itemNo}</h4> */}

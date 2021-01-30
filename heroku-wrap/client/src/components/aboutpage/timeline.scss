@@ -123,10 +123,16 @@ color: rgb(255, 255, 255); // box font color
 font-size: 13px;
 font-size: 0.8125rem;
 }
+
 .cd-timeline-content .cd-date {
 color: rgb(0, 0, 0); // date font color
 font-weight: 900;
 display: inline-block;
+}
+@media only screen and (max-width: 1170px) {
+.cd-timeline-content .cd-date {
+  color: rgb(228, 228, 228); // date font color
+}
 }
 .cd-timeline-content p {
 margin: 0.2em 0;
