@@ -64,7 +64,7 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
         onClose={() => { setShowToast(false) }}
         className="site-toast-style"
       >
-        <Toast.Body>Item added to cart</Toast.Body>
+        <Toast.Body>Item saved</Toast.Body>
       </Toast>
       <Modal
         show={show}
