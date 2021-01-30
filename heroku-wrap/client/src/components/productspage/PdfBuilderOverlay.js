@@ -103,7 +103,7 @@ const pdfFromItems = (savedItems, imgLogo) => {
     generatePage(doc, item, x + 1, totalPages, imgLogo);
   }
   doc.deletePage(totalPages + 1);
-  doc.save("PennyPlate_Products_PDF.pdf");
+  doc.save("Penny_Plate_Products_PDF.pdf");
 }
 
 const generatePage = (doc, item, page, totalPages, imgLogo) => {
