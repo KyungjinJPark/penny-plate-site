@@ -29,8 +29,10 @@
 }
 
 
-.nav-link-style { 
+.nav-link-style {
   color: #FFFB;
+  margin-left: 20px;
+  padding: 7px 0;
 }
 .nav-link-style:hover { 
   text-decoration: none;

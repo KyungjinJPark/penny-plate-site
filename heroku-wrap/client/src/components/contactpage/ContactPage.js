@@ -37,7 +37,7 @@ const ContactForm = () => {
       subject: subject.value,
       message: message.value,
     };
-    let response = await fetch(mailURL, {
+    await fetch(mailURL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -48,7 +48,7 @@ const ContactForm = () => {
       .then(data => {
         alert(data.status);
       })
-      .catch((error) => {
+      .catch(() => {
         alert("Browser error sending email! Please email info@pennyplate.com manually.");
       });
     setStatus("Submit");

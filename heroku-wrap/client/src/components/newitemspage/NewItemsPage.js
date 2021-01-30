@@ -33,9 +33,9 @@ const NewItemList = () => {
   if (error) return <div>Error fetching new products</div>;
   const articles = data.allNewItems;
   return (<Row>
-    {articles.map(article => <Col xs={12} sm={6} md={4}>
+    {articles.map(article => <Col xs={12} sm={6} md={4} key={article.id}>
       <Link to={`new-items/${article.id}`}>
-        <NewItemListItem key={article.id} article={article} />
+        <NewItemListItem article={article} />
       </Link>
     </Col>)}
   </Row>)
@@ -73,12 +73,13 @@ const NewItemPage = () => {
       </div>
       <div className="content-section">
         <Row>
-          {info.images.map((imgInfo) => {
+          {info.images.map((imgInfo, index) => {
             return <Col xs={6}>
               <img
                 src={imgInfo.url}
                 width="100%"
                 style={{ marginBottom: "3rem" }}
+                alt={`${info.title} ${index}`}
               />
             </Col>
           })}
