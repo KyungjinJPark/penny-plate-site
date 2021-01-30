@@ -21,11 +21,11 @@ const SiteNavbar = () => {
         <Navbar.Toggle aria-controls="expang-navbar-button" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link><Link className="nav-link-style" to="/">Home</Link></Nav.Link>
-            <Nav.Link><Link className="nav-link-style" to="/products">Products</Link></Nav.Link>
-            <Nav.Link><Link className="nav-link-style" to="/about">About</Link></Nav.Link>
-            <Nav.Link><Link className="nav-link-style" to="/catalog">Catalog</Link></Nav.Link>
-            <Nav.Link><Link className="nav-link-style" to="/contact">Contact</Link></Nav.Link>
+            <Link className="nav-link-style" to="/">Home</Link>
+            <Link className="nav-link-style" to="/products">Products</Link>
+            <Link className="nav-link-style" to="/about">About</Link>
+            <Link className="nav-link-style" to="/catalog">Catalog</Link>
+            <Link className="nav-link-style" to="/contact">Contact</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

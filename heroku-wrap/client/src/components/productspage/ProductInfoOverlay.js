@@ -86,14 +86,14 @@ const ProductPopUp = ({ show, item, addToSavedItems, onHide }) => {
                       <img
                         src={resource.url}
                         className="product-popup-image"
-                        alt="product photo"
+                        alt="product"
                       />
                     </Carousel.Item>)}
                   </Carousel>
                   : <img
                     src={info.photos[0].url}
                     className="product-popup-image"
-                    alt="product photo"
+                    alt="product"
                   />}
               </Col>
               <Col lg={12} xl={6}>

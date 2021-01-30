@@ -34,7 +34,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
   const [pageNum, setPageNum] = useState(0);
   const decPage = () => {
     setPageNum((oldpage) => {
-      if (oldpage == 0) {
+      if (oldpage === 0) {
         return oldpage;
       }
       else {
@@ -110,8 +110,8 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
           </Button>
           <h4 style={{ display: "inline" }}>{" "}Page {pageNum + 1}{" "}</h4>
           <Button
-            variant={(items.length == 16) ? "primary" : "secondary"}
-            onClick={(items.length == 16) ? incPage : () => { }}
+            variant={(items.length === 16) ? "primary" : "secondary"}
+            onClick={(items.length === 16) ? incPage : () => { }}
           >
             Next
           </Button>
@@ -135,7 +135,7 @@ const Search = ({ onSearch, defaultText }) => {
     onSearch(currText);
   }
   const handleKeyPress = (target) => {
-    if (target.charCode == 13) {
+    if (target.charCode === 13) {
       doSearch();
     }
   }

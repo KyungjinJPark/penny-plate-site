@@ -26,9 +26,9 @@ const HomePage = () => {
 
   return <>
     <Carousel>
-      {carouselImgData.map(imgData => {
+      {carouselImgData.map((imgData, index) => {
         return (
-          <Carousel.Item>
+          <Carousel.Item key={index}>
             <img
               src={imgData.src}
               className="d-block w-100 homepage-carousel-img"
@@ -58,7 +58,7 @@ const HomePage = () => {
           <img
             src={sectionImg}
             width="100%"
-            alt="Image of a Pan" />
+            alt="Pan" />
           <Button
             className="homepage-button button-pos-2"
             variant="primary"
