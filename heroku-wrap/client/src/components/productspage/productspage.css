@@ -1,0 +1,121 @@
+.products-page-wrapper {
+  display: flex;
+  flex-direction: row;
+}
+.products-sidebar {
+  min-width: 250px;
+  background-color: #E3E2E2;
+  padding: 2em 0 2em 1.5em;
+}
+@media (max-width:650px) {
+  .products-page-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  .products-sidebar {
+    width: 100%;
+  }
+}
+.filter-wrapper h4 {
+  font-size: 22px;
+  font-style: italic;
+}
+.filter-wrapper ul {
+  list-style: none;
+  padding-left: 0.5em;
+}
+.filter-wrapper input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+}
+.filter-wrapper p {
+  display: inline;
+  font-size: 18px;
+  padding-left: 5px;
+}
+
+.options-bar { 
+  display: flex;
+  justify-content: space-between;
+}
+.spaced-button {
+  margin: 0 0 0 0.3em;
+}
+.single-product-wrapper {
+  cursor: pointer;
+  text-align: center;
+}
+.single-product-wrapper:hover {
+  color: #DB3934;
+}
+.single-product-text {
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+.single-product-description {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.no-border-modal div {
+  border: none;
+}
+.popup-content {
+  padding: 0 5em;
+}
+.popup-content p {
+  font-weight: 400;
+  font-size: 22px;
+}
+.popup-content p b {
+  font-weight: 900;
+  font-size: 22px;
+}
+
+.product-popup-image {
+  width: 100%;
+  height: auto;
+  max-height: 95%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  background-image: none;
+}
+
+.no-border-modal .carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 55px;
+  color: black;
+  border-radius: 5px;
+  background-color: #99999966;
+}
+
+.no-border-modal .carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 55px;
+  color: black;
+  border-radius: 5px;
+  background-color: #99999966;
+}
+
+.saved-item-row {
+  border-bottom: 1px #999 solid;
+}
+.saved-item-img-cell {
+  max-width: 30%;
+  padding: 1em 1em 1em 0;
+}
+.saved-item-img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+}
+.saved-item-desc {
+  width: 70%;
+}

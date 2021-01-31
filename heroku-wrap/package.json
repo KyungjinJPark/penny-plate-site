@@ -1,0 +1,22 @@
+{
+  "name": "penny-plate-app",
+  "version": "1.0.0",
+  "description": "Penny Plate app. Served React app and API requests.",
+  "scripts": {
+    "client": "cd client && npm start",
+    "server": "nodemon server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "author": "Kyungjin J. Park",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.4",
+    "nodemailer": "^6.4.17"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0"
+  }
+}

@@ -1,0 +1,36 @@
+#homepage-carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.homepage-carousel-img {
+  height: 500px;
+  object-fit: cover;
+}
+
+.homepage-button {
+  position: relative;
+  z-index: 5;
+  left: 50%;
+  -ms-transform: translate(-50%, 0%);
+  transform: translate(-50%, 0%);
+
+  font-size: 18px;
+  font-weight: 700;
+
+  padding: 15px 40px;
+  box-shadow: 0 4px 4px #0000006c;
+}
+.button-pos-1 {
+  margin-top: -190px;
+}
+.button-pos-2 {
+  margin-top: -200px;
+}
+
+.homepage-new-items-link {
+  color: #000;
+}
+.homepage-new-items-link:hover {
+  text-decoration: none;
+}
