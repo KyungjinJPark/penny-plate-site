@@ -2,6 +2,8 @@ import { Container, Row, Col } from "react-bootstrap";
 
 import "./aboutpage.css";
 import Timeline from "./Timeline";
+import panDefImg1 from "../../imgs/pan-def-img-1.jpg";
+import panDefImg2 from "../../imgs/pan-def-img-2.jpg";
 
 const AboutPage = () => {
   const marketsData = [
@@ -47,6 +49,22 @@ const AboutPage = () => {
           </Col>
         </Row>)}
       </div>
+    </div>
+
+    <div className="content-section">
+      <h1>Pan Definitions</h1>
+      <div className="separator"></div>
+      <img
+        src={panDefImg1}
+        alt="pan definitions 1"
+        class="responsive-img"
+        style={{ marginBottom: "20px" }}
+      />
+      <img
+        src={panDefImg2}
+        alt="pan definitions 2"
+        class="responsive-img"
+      />
     </div>
 
     <div className="content-section">

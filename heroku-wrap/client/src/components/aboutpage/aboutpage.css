@@ -24,6 +24,11 @@
   color: white;
 }
 
+.responsive-img {
+  width: 100%;
+  height: auto;
+}
+
 .resource-links a {
   font-size: 20px;
 }
