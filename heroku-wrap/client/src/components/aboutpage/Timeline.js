@@ -43,7 +43,7 @@ const Timeline = () => <>
       <div class="cd-timeline-img"></div> {/* cd-timeline-img */}
 
       <div class="cd-timeline-content">
-        <p><b>rePlanet Packaging</b> was founded</p>
+        <p><a href="http://replanetpackaging.com/"><b>Polymer Pack</b></a> was founded.</p>
         <span class="cd-date">2015</span>
       </div> {/* cd-timeline-content */}
     </div> {/* cd-timeline-block */}
@@ -52,7 +52,7 @@ const Timeline = () => <>
       <div class="cd-timeline-img"></div> {/* cd-timeline-img */}
 
       <div class="cd-timeline-content red">
-        <p>Penny Plate, LLC. becomes a subsidiary of <b>Packaging Equity Holdings</b></p>
+        <p>Penny Plate, LLC. becomes a subsidiary of <a href="https://packagingmatters.com/"><b>Packaging Matters, LLC</b></a>.</p>
         <span class="cd-date">2020</span>
       </div> {/* cd-timeline-content */}
     </div> {/* cd-timeline-block */}
