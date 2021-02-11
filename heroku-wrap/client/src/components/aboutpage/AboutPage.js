@@ -25,7 +25,7 @@ const AboutPage = () => {
     <div className="content-section">
       <h1>History</h1>
       <div className="separator"></div>
-      <p>Founded in 1948, Penny Plate, LLC. has been committed to innovation, identifying opportunities to exceed customer expectations, and entering the market as the low cost provider. Today,  Penny Plate has one of the most extensive lines of aluminum containers, selling to Foodservice, Retail, and Packer Processor industries. Inventors of the widely used rolled rim technology, Penny Plate produces its own dyes and continues to be one of the leading innovators in aluminum container packaging.  We pride ourselves in the sustainability of our products, and our aluminum containers are 100% recyclable.</p>
+      <p>Founded in 1948, Penny Plate, LLC. has been committed to innovation, identifying opportunities to exceed customer expectations, and entering the market as the low cost provider. Today,  Penny Plate has one of the most extensive lines of aluminum containers, selling to Foodservice, Retail, and Packer Processor industries. Inventors of the widely used rolled rim technology, Penny Plate produces its own dies and continues to be one of the leading innovators in aluminum container packaging.  We pride ourselves in the sustainability of our products, and our aluminum containers are 100% recyclable.</p>
     </div>
 
     <div className="content-section">

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-apollo";
 import { Button, Card, Row, Col, InputGroup, FormControl } from "react-bootstrap";
 
@@ -46,10 +46,15 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
     setPageNum((oldpage) => oldpage + 1);
   }
 
+  useEffect(() => {
+    setPageNum(0);
+  }, [currentFilter, currentPType. currentShape, currentStock, currentSearch]);
+
+  const itemsPerPage = 15;
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: {
-      grabCount: 16,
-      skipCount: pageNum * 15,
+      grabCount: itemsPerPage,
+      skipCount: pageNum * itemsPerPage,
       application: currentFilter,
       productType: currentPType,
       shape: currentShape,
@@ -74,6 +79,8 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
   }
   else {
     const items = productData.allProducts;
+    const returnCount = productData.allProductsConnection.aggregate.count;
+    const pagesCount = Math.ceil(returnCount / 15);
     console.log(items)
     return (
       <div>
@@ -109,10 +116,10 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
           >
             Previous
           </Button>
-          <h4 style={{ display: "inline" }}>{" "}Page {pageNum + 1}{" "}</h4>
+          <p style={{ display: "inline" }}>{" "}Page {pageNum + 1} / Page {pagesCount}{" "}</p>
           <Button
-            variant={(items.length === 16) ? "primary" : "secondary"}
-            onClick={(items.length === 16) ? incPage : () => { }}
+            variant={((pageNum + 1) < pagesCount) ? "primary" : "secondary"}
+            onClick={((pageNum + 1) < pagesCount) ? incPage : () => { }}
           >
             Next
           </Button>

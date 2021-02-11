@@ -17,6 +17,12 @@ query ProductQuery($grabCount: Int!, $skipCount: Int!, $application: [Applicatio
       )
     }
   }
+  allProductsConnection(where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock, OR: [{description_contains: $keywords}, {itemNo: $itemNo}]}) 
+  {
+    aggregate {
+      count
+    }
+  }
 }
 `;
 
