@@ -25,7 +25,7 @@ export default ContactPage;
 const ContactForm = () => {
   const [status, setStatus] = useState("Submit");
 
-  const mailURL = "/api/contact/send-mail";
+  const mailURL = "https://penny-plate-site-just-api.herokuapp.com/api/contact/send-mail";
 
   const handleSubmit = async (e) => {
     e.preventDefault();

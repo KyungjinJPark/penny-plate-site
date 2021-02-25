@@ -5,6 +5,7 @@ node_modules
 /heroku-wrap/client/build
 
 # secrets
+heroku-wrap/
 .env
 
 # misc
