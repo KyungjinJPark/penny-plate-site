@@ -14,7 +14,7 @@ const ProductsPage = () => {
   const [currentStock, setStock] = useState([]);
   const [currentSearch, setSearch] = useState("");
 
-  const counts = useRef([-1,-1,-1,-1]); 
+  const counts = useRef([0,0,0,0]); 
 
   const changeFilters = useCallback(
     (newFilters) => {
@@ -52,16 +52,16 @@ const ProductsPage = () => {
   );
 
   useEffect(() => {
-    if (counts.current[0] === -1) {
+    if (counts.current[0] === 0) {
       counts.current[0] = currentFilter.length;
     }
-    if (counts.current[1] === -1) {
+    if (counts.current[1] === 0) {
       counts.current[1] = currentPType.length;
     }
-    if (counts.current[2] === -1) {
+    if (counts.current[2] === 0) {
       counts.current[2] = currentShape.length;
     }
-    if (counts.current[3] === -1) {
+    if (counts.current[3] === 0) {
       counts.current[3] = currentStock.length;
     }
   }
