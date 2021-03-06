@@ -7,7 +7,7 @@ import { PRODUCTS_QUERY } from "./queries";
 import PdfBuilderOverlay from "./PdfBuilderOverlay";
 import ProductPopUp from "./ProductInfoOverlay"
 
-const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch }) => {
+const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType, currentShape, currentStock, currentSearch, changeSearch, counts }) => {
   const [savedItems, setSavedItems] = useState([]);
   const addToSavedItems = (item) => {
     setSavedItems((oldItems) => {
@@ -48,7 +48,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
 
   useEffect(() => {
     setPageNum(0);
-  }, [currentFilter, currentPType.currentShape, currentStock, currentSearch]);
+  }, [currentFilter, currentPType, currentShape, currentStock, currentSearch]);
   console.log(currentPType);
   console.log(currentPType.filter((str) => {return (str !== "Oblongs" && str !== "Loaf")}));
   const itemsPerPage = 15;
@@ -62,7 +62,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
       stock: currentStock,
       keywords: (currentSearch.replace(/\n/gi, " ").trim()),
       itemNo: (currentSearch.replace(/\n/gi, " ").trim()),
-      order: (currentPType.length !== 16 || currentFilter.length !== 4 || currentShape.length !== 4 || currentStock.length !== 2) ? 
+      order: (currentPType.length !== counts[1] || currentFilter.length !== counts[0] || currentShape.length !== counts[2] || currentStock.length !== counts[3]) ? 
         ((currentPType.length < 3 && currentPType.filter((str) => {return (str !== 'Oblongs' && str !== 'Loaf')}).length === 0) ? 
           'panCapacity_ASC' 
             : 'topOut_ASC')

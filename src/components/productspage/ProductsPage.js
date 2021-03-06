@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { Container, Button } from "react-bootstrap";
 
 import "./productspage.css";
@@ -14,9 +14,11 @@ const ProductsPage = () => {
   const [currentStock, setStock] = useState([]);
   const [currentSearch, setSearch] = useState("");
 
+  const counts = useRef([-1,-1,-1,-1]); 
+
   const changeFilters = useCallback(
     (newFilters) => {
-      setFilter(newFilters);
+      setFilter(newFilters); 
     },
     []
   );
@@ -49,6 +51,21 @@ const ProductsPage = () => {
     []
   );
 
+  useEffect(() => {
+    if (counts.current[0] === -1) {
+      counts.current[0] = currentFilter.length;
+    }
+    if (counts.current[1] === -1) {
+      counts.current[1] = currentPType.length;
+    }
+    if (counts.current[2] === -1) {
+      counts.current[2] = currentShape.length;
+    }
+    if (counts.current[3] === -1) {
+      counts.current[3] = currentStock.length;
+    }
+  }
+  , [currentFilter, currentPType, currentShape, currentStock]);
 
   const [showFilters, setShowFilters] = useState(false);
   const toggleFilters = () => {
@@ -86,6 +103,7 @@ const ProductsPage = () => {
         currentStock={currentStock}
         currentSearch={currentSearch}
         changeSearch={changeSearch}
+        counts={counts}
       />
     </Container>
   </div>)
