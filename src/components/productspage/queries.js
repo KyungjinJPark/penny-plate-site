@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 const PRODUCTS_QUERY = gql`
 query ProductQuery($grabCount: Int!, $skipCount: Int!, $application: [Application!], $productType: [ProductType!], $shape: [Shape!], $stock: [StockType!], $keywords: String!, $itemNo: String!){
-  allProducts(first: $grabCount, skip: $skipCount, where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock, OR: [{description_contains: $keywords}, {itemNo: $itemNo}]}) 
+  allProducts(orderBy: topOut_ASC, first: $grabCount, skip: $skipCount, where: {application_contains_some: $application, productType_in: $productType, shape_in: $shape, stockType_in: $stock, OR: [{description_contains: $keywords}, {itemNo: $itemNo}]}) 
   {
     id
     itemNo

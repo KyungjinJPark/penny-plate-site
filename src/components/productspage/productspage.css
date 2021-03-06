@@ -48,9 +48,26 @@
 .single-product-wrapper:hover {
   color: #DB3934;
 }
+.single-product-wrapper:hover .single-product-item-no {
+  color: white;
+  background-color: #DB3934;
+}
 .single-product-text {
   padding: 10px 0;
   margin-bottom: 10px;
+}
+.single-product-item-no {
+  position: absolute;
+  top: 2.5%;
+  right: 7.5%;
+  color: #DB3934;
+  background-color: #DB393422;
+  border-radius: 0.2rem;
+  padding: 3px 5px;
+}
+.single-product-item-no h4 {
+  padding: 0;
+  margin: 0;
 }
 .single-product-description {
   font-weight: 600;

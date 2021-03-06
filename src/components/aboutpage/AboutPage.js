@@ -37,7 +37,7 @@ const AboutPage = () => {
       <div className="separator"></div>
       <p>Penny Plate, LLC supplies three major markets: Food Processors, Food Service Distribution, and Retail. All three markets use our products in distinct ways:</p>
       <div className="markets-inside-wrapper">
-        {marketsData.map((data, index) => <Row className="markets-li">
+        {marketsData.map((data, index) => <Row key={data.header} className="markets-li">
           <Col xs={3} sm={2} md={2} lg={1}>
             <div className="markets-red-circle">
               <p>{index + 1}</p>
@@ -57,13 +57,13 @@ const AboutPage = () => {
       <img
         src={panDefImg1}
         alt="pan definitions 1"
-        class="responsive-img"
+        className="responsive-img"
         style={{ marginBottom: "20px" }}
       />
       <img
         src={panDefImg2}
         alt="pan definitions 2"
-        class="responsive-img"
+        className="responsive-img"
       />
     </div>
 

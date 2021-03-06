@@ -48,7 +48,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
 
   useEffect(() => {
     setPageNum(0);
-  }, [currentFilter, currentPType. currentShape, currentStock, currentSearch]);
+  }, [currentFilter, currentPType.currentShape, currentStock, currentSearch]);
 
   const itemsPerPage = 15;
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
@@ -81,7 +81,6 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
     const items = productData.allProducts;
     const returnCount = productData.allProductsConnection.aggregate.count;
     const pagesCount = Math.ceil(returnCount / 15);
-    console.log(items)
     return (
       <div>
         <InputGroup>
@@ -125,7 +124,7 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
           </Button>
         </div>
         <PdfBuilderOverlay show={showSavedItemsModal} onHide={hideSavedItemsModal} savedItems={savedItems} removeSavedItem={removeSavedItem} />
-        <ProductPopUp show={showProductModal} item={focusItem} addToSavedItems={addToSavedItems} onHide={hidePopUpModal} />
+        {showProductModal && <ProductPopUp show={showProductModal} item={focusItem} addToSavedItems={addToSavedItems} onHide={hidePopUpModal} />}
       </div>
     )
   }
@@ -171,6 +170,7 @@ const Product = ({ item, addToSavedItems, setFocusItem, setProductModalVisible }
       alt="..."
       style={{ boxShadow: "1px 3px 8px #AAAAAA" }}
     />
+    <div className="single-product-item-no"><h4>{item.itemNo}</h4></div>
     <div className="single-product-text">
       {/* <h4>{item.itemNo}</h4> */}
       <h4 className="single-product-description">{item.description}</h4>
