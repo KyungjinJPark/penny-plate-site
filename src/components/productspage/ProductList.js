@@ -49,7 +49,8 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
   useEffect(() => {
     setPageNum(0);
   }, [currentFilter, currentPType.currentShape, currentStock, currentSearch]);
-
+  console.log(currentPType);
+  console.log(currentPType.filter((str) => {return (str !== "Oblongs" && str !== "Loaf")}));
   const itemsPerPage = 15;
   const { loading: productLoading, error: productError, data: productData } = useQuery(PRODUCTS_QUERY, {
     variables: {
@@ -60,7 +61,12 @@ const ProductsList = ({ showFilters, toggleFilters, currentFilter, currentPType,
       shape: currentShape,
       stock: currentStock,
       keywords: (currentSearch.replace(/\n/gi, " ").trim()),
-      itemNo: (currentSearch.replace(/\n/gi, " ").trim())
+      itemNo: (currentSearch.replace(/\n/gi, " ").trim()),
+      order: (currentPType.length !== 16 || currentFilter.length !== 4 || currentShape.length !== 4 || currentStock.length !== 2) ? 
+        ((currentPType.length < 3 && currentPType.filter((str) => {return (str !== 'Oblongs' && str !== 'Loaf')}).length === 0) ? 
+          'panCapacity_ASC' 
+            : 'topOut_ASC')
+        : null,
     },
   });
   if (productLoading) {
