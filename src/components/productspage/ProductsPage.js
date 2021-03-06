@@ -14,11 +14,11 @@ const ProductsPage = () => {
   const [currentStock, setStock] = useState([]);
   const [currentSearch, setSearch] = useState("");
 
-  const counts = useRef([0,0,0,0]); 
+  const counts = useRef([0, 0, 0, 0]);
 
   const changeFilters = useCallback(
     (newFilters) => {
-      setFilter(newFilters); 
+      setFilter(newFilters);
     },
     []
   );
@@ -65,7 +65,7 @@ const ProductsPage = () => {
       counts.current[3] = currentStock.length;
     }
   }
-  , [currentFilter, currentPType, currentShape, currentStock]);
+    , [currentFilter, currentPType, currentShape, currentStock]);
 
   const [showFilters, setShowFilters] = useState(false);
   const toggleFilters = () => {
@@ -103,7 +103,7 @@ const ProductsPage = () => {
         currentStock={currentStock}
         currentSearch={currentSearch}
         changeSearch={changeSearch}
-        counts={counts}
+        counts={counts.current}
       />
     </Container>
   </div>)
