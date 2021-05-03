@@ -58,7 +58,7 @@ const Timeline = () => (
         <div className="cd-timeline-content">
           <p>
             <a href="https://www.polymerpak.com/">
-              <b>Polymer Pak</b>
+              <b>PolymerPak</b>
             </a>{" "}
             was founded.
           </p>
