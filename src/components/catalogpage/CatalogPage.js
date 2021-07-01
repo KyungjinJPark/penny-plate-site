@@ -12,7 +12,11 @@ const CatalogPage = () => {
         <div className="separator"></div>
         <p>Click to View our Latest Catalog:</p>
         {/* <a href={pdf} download> */}
-        <a href="/Penny_Plate_Catalog.pdf" download>
+        <a
+          href="/Penny_Plate_Catalog.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <h4>Penny Plate Catalog</h4>
         </a>
         <br />
